@@ -1,0 +1,25 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.fartburger.fartcheat.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "LivingEntityMixin"
+  ],
+  "client": [
+    "BlockMixin",
+    "ChatMixin",
+    "ClientPlayerEntityMixin",
+    "InGameHudMixin",
+    "KeyboardMixin",
+    "MinecraftClientMixin",
+    "MinecraftClientMixin2",
+    "MojangScreenMixin",
+    "MouseMixin",
+    "SimpleOptionMixin",
+    "TitleScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

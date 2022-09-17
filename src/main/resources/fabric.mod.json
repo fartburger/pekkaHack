@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "modid",
+  "version": "${version}",
+
+  "name": "pekkahack",
+  "description": "2nd attempt at a hacked client for minecraft",
+  "authors": [
+    "Me!"
+  ],
+
+  "license": "CC0-1.0",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.fartburger.fartcheat.FCRMain"
+    ]
+  },
+  "mixins": [
+    "modid.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.9"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
