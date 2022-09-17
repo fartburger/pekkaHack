@@ -104,7 +104,6 @@ public class Button implements Element, Drawable, Selectable, HCursor {
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        System.out.println("IM TRYING TO BE RENDERED HERE");
         isHovered = inBounds(mouseX, mouseY) && isEnabled();
         matrices.push();
         matrices.translate(x + width / 2d, y + height / 2d, 0);

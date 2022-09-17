@@ -10,15 +10,17 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.BufferUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Utils {
-
     public boolean clickguiactive = false;
 
     public static void registerBufferedImageTexture(Texture i, BufferedImage bi) {
@@ -41,6 +43,26 @@ public class Utils {
         } catch (Exception ignored) {
         }
     }
+
+    public static void throwIfAnyEquals(String message, Object ifEquals, Object... toCheck) {
+        for (Object o : toCheck) {
+            if (o == ifEquals) {
+                throw new IllegalArgumentException(message);
+            }
+        }
+    }
+
+    public static Vec3d getInterpolatedEntityPosition(Entity entity) {
+        Vec3d a = entity.getPos();
+        Vec3d b = new Vec3d(entity.prevX, entity.prevY, entity.prevZ);
+        float p = FCRMain.client.getTickDelta();
+        return new Vec3d(MathHelper.lerp(p, b.x, a.x), MathHelper.lerp(p, b.y, a.y), MathHelper.lerp(p, b.z, a.z));
+    }
+
+    public static String nameToTitle(String name) {
+        return Arrays.stream(name.split("-")).map(StringUtils::capitalize).collect(Collectors.joining(" "));
+    }
+
     public static class Math {
 
         public static double roundToDecimal(double n, int point) {

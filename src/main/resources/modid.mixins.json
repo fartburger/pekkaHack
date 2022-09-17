@@ -4,13 +4,19 @@
   "package": "com.fartburger.fartcheat.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "FluidBlockMixin",
     "LivingEntityMixin"
   ],
   "client": [
+    "BlockEntityRenderDispatcherMixin",
     "BlockMixin",
     "ChatMixin",
     "ClientPlayerEntityMixin",
+    "ClientPlayerInteractionManagerMixin",
+    "GameRendererMixin",
+    "IClientPlayerInteractionManagerMixin",
     "InGameHudMixin",
+    "IPlayerListEntryMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
     "MinecraftClientMixin2",

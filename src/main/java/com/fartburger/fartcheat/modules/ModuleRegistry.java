@@ -76,6 +76,13 @@ public class ModuleRegistry {
         registerModule(NoSlow.class);
         registerModule(Xray.class);
         registerModule(FullBright.class);
+        registerModule(ShulkerBlocker.class);
+        registerModule(FireballBlocker.class);
+        registerModule(StorageESP.class);
+        registerModule(PingSpoof.class);
+        registerModule(KillAura.class);
+        registerModule(Reach.class);
+        registerModule(AutoTool.class);
 
         rebuildSharedModuleList();
 

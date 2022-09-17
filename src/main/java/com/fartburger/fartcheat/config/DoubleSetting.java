@@ -19,6 +19,8 @@ public class DoubleSetting extends SettingBase<Double> {
         this.max = max;
     }
 
+
+
     @Override
     @SneakyThrows
     public void serialize(DataOutputStream stream) {
@@ -50,6 +52,11 @@ public class DoubleSetting extends SettingBase<Double> {
         } catch (Exception ignored) {
             return defaultValue;
         }
+    }
+
+    @Override
+    public String getType() {
+        return "double";
     }
 
     @Override

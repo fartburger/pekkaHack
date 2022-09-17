@@ -29,7 +29,36 @@ public class ClickGUI extends ScreenBase {
     boolean doanim = true;
     double animprogress=1;
     double animprogress2=1;
-
+    List<Module> MovementMods = new ArrayList<>();
+    List<Module> RenderMods = new ArrayList<>();
+    List<Module> CombatMods = new ArrayList<>();
+    List<Module> ExploitMods = new ArrayList<>();
+    List<Module> OtherMods = new ArrayList<>();
+    int do_c = 0;
+    void categorize() {
+        for(Module module : ModuleRegistry.getModules()) {
+            switch(module.getModuleType().getName()) {
+                case "Movement":
+                    MovementMods.add(module);;
+                    break;
+                case "Render":
+                    RenderMods.add(module);
+                    break;
+                case "Combat":
+                    CombatMods.add(module);
+                    break;
+                case "Exploit":
+                    ExploitMods.add(module);
+                    break;
+                case "World":
+                    OtherMods.add(module);
+                    break;
+                case "Misc":
+                    OtherMods.add(module);
+                    break;
+            }
+        }
+    }
     FontAdapter cfr = FontRenderers.getCustomSize(14);
 
     Color catColor = new Color(34, 73, 184);
@@ -82,6 +111,7 @@ public class ClickGUI extends ScreenBase {
 
         return false;
     }
+    // beware, the code you are about to view looks like it was written by a 7 year old boy with down syndrome
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         if(closing) {
@@ -92,29 +122,46 @@ public class ClickGUI extends ScreenBase {
         double threequarters = this.width/1.109;
         double threequartersh = this.height/1.109;
         double movementxpos = (threequarters-animprogress)+padding;
-        double movementypos = ((threequartersh-animprogress2));
+        double movementypos = ((threequartersh-animprogress2))+fontHeight;
         double combatxpos = (threequarters-animprogress)+padding*2+66;
-        double worldxpos = (threequarters-animprogress)+padding*4+132;
+        double renderxpos = (threequarters-animprogress)+padding*4+132;
         double exploitxpos = (threequarters-animprogress)+padding*6+198;
+        double otherxpos  = (threequarters-animprogress)+padding*8+(198+66);
+        if(do_c<1) { categorize(); do_c++; }
         Renderer.R2D.renderRoundedQuad(matrices,new Color(47, 67, 80),(threequarters-animprogress),(threequartersh-animprogress2),threequarters,threequartersh,5,20);
         if(loaded) {
             drawCategory(matrices,"Movement",(threequarters-animprogress)+padding,(threequartersh-animprogress2)+padding,(threequarters-animprogress)+padding+66,((threequartersh-animprogress2)+padding)+fontHeight,catColor);
             drawCategory(matrices,"Combat",(threequarters-animprogress)+padding*2+66,(threequartersh-animprogress2)+padding,((threequarters-animprogress)+padding*2+66)+66,((threequartersh-animprogress2)+padding)+fontHeight,catColor);
-            drawCategory(matrices,"World",(threequarters-animprogress)+padding*4+132,(threequartersh-animprogress2)+padding,((threequarters-animprogress)+padding*4+132)+66,((threequartersh-animprogress2)+padding)+fontHeight,catColor);
+            drawCategory(matrices,"Render",(threequarters-animprogress)+padding*4+132,(threequartersh-animprogress2)+padding,((threequarters-animprogress)+padding*4+132)+66,((threequartersh-animprogress2)+padding)+fontHeight,catColor);
             drawCategory(matrices,"Exploits",(threequarters-animprogress)+padding*6+198,(threequartersh-animprogress2)+padding,((threequarters-animprogress)+padding*6+198)+66,((threequartersh-animprogress2)+padding)+fontHeight,catColor);
+            drawCategory(matrices,"Other",(threequarters-animprogress)+padding*8+(198+66),(threequartersh-animprogress2)+padding,((threequarters-animprogress)+padding*8+(198+66))+66,((threequartersh-animprogress2)+padding)+fontHeight,catColor);
             int a=1;
-            for(Module module : ModuleRegistry.getModules()) {
-                switch(module.getModuleType().getName()) {
-                    case "Movement":
-                        Renderer.R2D.renderQuad(matrices,butColor,movementxpos,(movementypos+fontHeight*a)+1,movementxpos+66,(movementypos+fontHeight*a)+fontHeight);
-                        cfr.drawString(matrices,module.getName(),(movementxpos+(movementxpos+66))/2-(strWidth(cfr,module.getName())/2),(movementypos+fontHeight*a)+1,module.isEnabled() ? onColor.getRGB() : offColor.getRGB());
-                        break;
-                    case "Render":
-                        Renderer.R2D.renderQuad(matrices,butColor,worldxpos,(movementypos+fontHeight*a)+1,worldxpos+66,(movementypos+fontHeight*a)+fontHeight);
-                        cfr.drawString(matrices,module.getName(),(worldxpos+(worldxpos+66))/2-(strWidth(cfr,module.getName())/2),(movementypos+fontHeight*a)+1,module.isEnabled() ? onColor.getRGB() : offColor.getRGB());
-                        break;
-                }
+            for(Module module : MovementMods) {
+                Renderer.R2D.renderQuad(matrices,butColor,movementxpos,(movementypos+fontHeight*a)+1,movementxpos+66,(movementypos+fontHeight*a)+fontHeight);
+                cfr.drawString(matrices,module.getName(),(movementxpos+(movementxpos+66))/2-(strWidth(cfr,module.getName())/2),(movementypos+fontHeight*a)+1,module.isEnabled() ? onColor.getRGB() : offColor.getRGB());
                 a++;
+            }
+            a=1;
+            for(Module module : CombatMods) {
+                Renderer.R2D.renderQuad(matrices,butColor,combatxpos,(movementypos+fontHeight*a)+1,combatxpos+66,(movementypos+fontHeight*a)+fontHeight);
+                cfr.drawString(matrices,module.getName(),(combatxpos+(combatxpos+66))/2-(strWidth(cfr,module.getName())/2),(movementypos+fontHeight*a)+1,module.isEnabled() ? onColor.getRGB() : offColor.getRGB());
+                a++;
+            }
+            a=1;
+            for(Module module : RenderMods) {
+                Renderer.R2D.renderQuad(matrices,butColor,renderxpos,(movementypos+fontHeight*a)+1,renderxpos+66,(movementypos+fontHeight*a)+fontHeight);
+                cfr.drawString(matrices,module.getName(),(renderxpos+(renderxpos+66))/2-(strWidth(cfr,module.getName())/2),(movementypos+fontHeight*a)+1,module.isEnabled() ? onColor.getRGB() : offColor.getRGB());
+                a++;
+            }
+            a=1;
+            for(Module module : ExploitMods) {
+                Renderer.R2D.renderQuad(matrices,butColor,exploitxpos,(movementypos+fontHeight*a)+1,exploitxpos+66,(movementypos+fontHeight*a)+fontHeight);
+                cfr.drawString(matrices,module.getName(),(exploitxpos+(exploitxpos+66))/2-(strWidth(cfr,module.getName())/2),(movementypos+fontHeight*a)+1,module.isEnabled() ? onColor.getRGB() : offColor.getRGB());
+            }
+            a=1;
+            for(Module module : OtherMods) {
+                Renderer.R2D.renderQuad(matrices,butColor,otherxpos,(movementypos+fontHeight*a)+1,otherxpos+66,(movementypos+fontHeight*a)+fontHeight);
+                cfr.drawString(matrices,module.getName(),(otherxpos+(otherxpos+66))/2-(strWidth(cfr,module.getName())/2),(movementypos+fontHeight*a)+1,module.isEnabled() ? onColor.getRGB() : offColor.getRGB());
             }
         }
     }

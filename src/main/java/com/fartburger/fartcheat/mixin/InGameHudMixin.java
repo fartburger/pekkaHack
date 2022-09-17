@@ -41,7 +41,7 @@ public class InGameHudMixin {
         int a=0;
         for(Module module : ModuleRegistry.getModules()) {
             if(module.isEnabled()) {
-                fr.drawString(matrices, module.getName(), scaledWidth-strWidth(fr,module.getName())-6,(a* fr.getFontHeight()+6),new Color(30, 198, 217).getRGB());
+                fr.drawString(matrices, module.getName(), scaledWidth-strWidth(fr,module.getName())-1,(a* fr.getFontHeight()+6),new Color(30, 198, 217).getRGB());
                 a++;
             }
         }

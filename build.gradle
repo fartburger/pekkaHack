@@ -29,12 +29,19 @@ repositories {
 			includeGroupByRegex 'io\\.github\\.onyxstudios.*'
 		}
 	}
+	maven {
+		name = "meteor-maven-snapshots"
+		url = "https://maven.meteordev.org/snapshots"
+	}
 	mavenCentral()
 }
 
 configurations {
 	libImpl
 	modImpl
+
+	modImplementation.extendsFrom(modInclude)
+	include.extendsFrom(modInclude)
 }
 
 dependencies {
@@ -46,6 +53,9 @@ dependencies {
 	// Lombok
 	compileOnly(group: "org.projectlombok", name: "lombok", version: "1.18.24")
 	annotationProcessor(group: "org.projectlombok", name: "lombok", version: "1.18.24")
+
+	// Baritone
+	modInclude "baritone:fabric:${project.minecraft_version}-SNAPSHOT"
 
 	// Fabric api
 	Set<String> apiModules = [

@@ -107,6 +107,10 @@ public abstract class SettingBase<V> {
         }
     }
 
+    public String getType() {
+        return "";
+    }
+
     public void reset() {
         this.setValue(this.getDefaultValue());
     }

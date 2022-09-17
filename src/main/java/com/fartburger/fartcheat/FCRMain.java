@@ -14,14 +14,12 @@ import net.minecraft.client.gui.Element;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class FCRMain implements ModInitializer {
@@ -33,6 +31,9 @@ public class FCRMain implements ModInitializer {
 	public static File BASE = new File(MinecraftClient.getInstance().runDirectory,"pekka");
 	public static Thread FAST_TICKER;
 	public static FCRMain INSTANCE;
+	public static String PREFIX = ".";
+	public static HashMap<String,Integer> kc = new HashMap<>();
+
 
 	public static void log(Level level, Object... message) {
 		LOGGER.log(level, Arrays.stream(message).map(Object::toString).collect(Collectors.joining(" ")));
@@ -41,6 +42,7 @@ public class FCRMain implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		INSTANCE = this;
+		kc();
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution
@@ -107,5 +109,41 @@ public class FCRMain implements ModInitializer {
 		}, "Animation ticker");
 		FAST_TICKER.start();
 		log(Level.INFO,"the gears of time are now ticking...");
+	}
+
+	// do not go below, only keycodes await... (you should be scared)
+	void kc() {
+		kc.put("Q",GLFW.GLFW_KEY_Q);
+		kc.put("W",GLFW.GLFW_KEY_W);
+		kc.put("E",GLFW.GLFW_KEY_E);
+		kc.put("R",GLFW.GLFW_KEY_R);
+		kc.put("T",GLFW.GLFW_KEY_T);
+		kc.put("Y",GLFW.GLFW_KEY_Y);
+		kc.put("U",GLFW.GLFW_KEY_U);
+		kc.put("I",GLFW.GLFW_KEY_I);
+		kc.put("O",GLFW.GLFW_KEY_O);
+		kc.put("P",GLFW.GLFW_KEY_P);
+		kc.put("[",GLFW.GLFW_KEY_RIGHT_BRACKET);
+		kc.put("]",GLFW.GLFW_KEY_LEFT_BRACKET);
+		kc.put("A",GLFW.GLFW_KEY_A);
+		kc.put("S",GLFW.GLFW_KEY_S);
+		kc.put("D",GLFW.GLFW_KEY_D);
+		kc.put("F",GLFW.GLFW_KEY_F);
+		kc.put("G",GLFW.GLFW_KEY_G);
+		kc.put("H",GLFW.GLFW_KEY_H);
+		kc.put("J",GLFW.GLFW_KEY_J);
+		kc.put("K",GLFW.GLFW_KEY_K);
+		kc.put("L",GLFW.GLFW_KEY_L);
+		kc.put(";",GLFW.GLFW_KEY_SEMICOLON);
+		kc.put("Z",GLFW.GLFW_KEY_Z);
+		kc.put("X",GLFW.GLFW_KEY_X);
+		kc.put("C",GLFW.GLFW_KEY_C);
+		kc.put("V",GLFW.GLFW_KEY_V);
+		kc.put("B",GLFW.GLFW_KEY_B);
+		kc.put("N",GLFW.GLFW_KEY_N);
+		kc.put("M",GLFW.GLFW_KEY_M);
+		kc.put(",",GLFW.GLFW_KEY_COMMA);
+		kc.put(".",GLFW.GLFW_KEY_PERIOD);
+		kc.put("/",GLFW.GLFW_KEY_SLASH);
 	}
 }
