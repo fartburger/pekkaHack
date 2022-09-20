@@ -1,0 +1,44 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.fartburger.fartcheat.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "AbstractBlockStateMixin",
+    "ClientConnectionMixin",
+    "FluidBlockMixin",
+    "LivingEntityMixin",
+    "PlayerEntityMixin",
+    "SharedConstantMixin",
+    "SodiumBlockOcclusionCacheMixin",
+    "StatusEffectInstanceMixin"
+  ],
+  "client": [
+    "BlockEntityRenderDispatcherMixin",
+    "BlockMixin",
+    "BlockRenderManagerMixin",
+    "ChatMixin",
+    "ClientPlayerEntityMixin",
+    "ClientPlayerInteractionManagerMixin",
+    "ClientPlayNetworkHandlerMixin",
+    "ClientWorldMixin",
+    "GameRendererMixin",
+    "IClientPlayerInteractionManagerMixin",
+    "InGameHudMixin",
+    "IPlayerListEntryMixin",
+    "IRenderPhaseMixin",
+    "KeyboardMixin",
+    "MinecraftClientMixin",
+    "MinecraftClientMixin2",
+    "MinecraftClientMixin3",
+    "MojangScreenMixin",
+    "MouseMixin",
+    "PlayerListHudMixin",
+    "SimpleOptionMixin",
+    "StatisticsScreenMixin",
+    "TitleScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
