@@ -102,6 +102,7 @@ public class ModuleRegistry {
         registerModule(SpeedMine.class);
         registerModule(BaseFinder.class);
         registerModule(AutoClicker.class);
+        registerModule(Tower.class);
 
         rebuildSharedModuleList();
 
