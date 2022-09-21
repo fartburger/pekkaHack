@@ -40,6 +40,8 @@ public class LoadingScreen extends ScreenBase implements FastTickable {
     static LoadingScreen INSTANCE = null;
     final AtomicBoolean loaded = new AtomicBoolean(false);
     final AtomicBoolean loadInProg = new AtomicBoolean(false);
+
+    final AtomicBoolean failed = new AtomicBoolean(false);
     String warningIfPresent = "";
 
     double opacity = 1;
@@ -71,7 +73,7 @@ public class LoadingScreen extends ScreenBase implements FastTickable {
     void load() {
         loadInProg.set(true);
         HttpClient ocli = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build();
-        URI uri = URI.create("https://raw.githubusercontent.com/fartburger/pekkaHack/main/src/main/resources/version.txt");
+        URI uri = URI.create("https://raw.githubusercontent.com/fartburger/pekkaHack/master/src/main/resources/version.txt");
         HttpRequest get = HttpRequest.newBuilder().uri(uri).header("User-Agent", "pekka/1.0").build();
         HttpResponse<String> send = ocli.send(get, HttpResponse.BodyHandlers.ofString());
         String remotever = send.body();
@@ -101,6 +103,7 @@ public class LoadingScreen extends ScreenBase implements FastTickable {
                         tex.load();
                         FCRMain.log(Level.INFO, "Loading " + tex);
                     } catch (Throwable t) {
+                        failed.set(true);
                         FCRMain.log(Level.ERROR, "Failed to load " + tex);
                         t.printStackTrace();
                         warningIfPresent = "Some textures failed to download. They won't show up in game.";
@@ -151,6 +154,9 @@ public class LoadingScreen extends ScreenBase implements FastTickable {
         String stauts = loaded.get() ? "Done!" : "Loading";
         fr.drawString(stack, stauts + dots, 3, height - fr.getFontHeight() - 3, 0.7f, 0.7f, 0.7f, (float) opacity);
         fr.drawString(stack,String.valueOf(clock),3,height-fr.getFontHeight()*2-6,0.7f,0.7f,0.7f,(float)opacity);
+        if(failed.get()) {
+            FontRenderers.getCustomSize(35).drawString(stack,"fuck you",this.width/2-FontRenderers.getCustomSize(45).getStringWidth("fuck you")/2,this.height/2- textRenderer.fontHeight/2,0xFF2222);
+        }
         stack.push();
     }
 }

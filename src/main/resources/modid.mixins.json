@@ -33,7 +33,6 @@
     "MinecraftClientMixin3",
     "MojangScreenMixin",
     "MouseMixin",
-    "PlayerListHudMixin",
     "SimpleOptionMixin",
     "StatisticsScreenMixin",
     "TitleScreenMixin"
