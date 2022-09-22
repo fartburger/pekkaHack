@@ -90,7 +90,7 @@ public class Tower extends Module {
                 if (p.getDefaultState().canPlaceAt(FCRMain.client.world, next)) {
                     FCRMain.client.execute(() -> {
                         Vec3d goP = Vec3d.of(next).add(0, 1.05, 0);
-                        FCRMain.client.player.updatePosition(goP.x, goP.y+2, goP.z);
+                        FCRMain.client.player.updatePosition(goP.x+0.4, goP.y+2, goP.z+0.4);
                         BlockHitResult bhr = new BlockHitResult(placeCenter, Direction.DOWN, next, false);
                         FCRMain.client.interactionManager.interactBlock(FCRMain.client.player, Hand.MAIN_HAND, bhr);
                         FCRMain.client.player.setVelocity(0,0,0);

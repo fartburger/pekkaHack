@@ -10,7 +10,7 @@ public class SettingGUI extends Module {
     int t = 2;
 
     public SettingGUI() {
-        super("settings gui","a visual manager for all settings", ModuleType.RENDER);
+        super("settinggui","a visual manager for all settings", ModuleType.RENDER);
         this.keybind.accept(GLFW.GLFW_KEY_RIGHT_CONTROL+"");
 
     }

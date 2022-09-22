@@ -33,7 +33,7 @@ import java.util.List;
 public class ESP extends Module {
     //static DumpVertexConsumer consumer = new DumpVertexConsumer();
     static DumpVertexProvider provider;
-    public final EnumSetting<Mode> outlineMode = this.config.create(new EnumSetting.Builder<>(Mode.Shader).name("OutlineMode")
+    public final EnumSetting<Mode> outlineMode = this.config.create(new EnumSetting.Builder<>(Mode.Filled).name("OutlineMode")
             .description("How to render the outline")
             .get());
     public final EnumSetting<ShaderMode> shaderMode = this.config.create(new EnumSetting.Builder<>(ShaderMode.Simple).name("ShaderMode")

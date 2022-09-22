@@ -29,7 +29,7 @@ public class InstaBow extends Module {
             .name("Iterations")
             .description("How often to spoof velocity (more = bigger damage)")
             .min(5)
-            .max(5000)
+            .max(50000)
             .get());
     final BooleanSetting autoFire = this.config.create(new BooleanSetting.Builder(false).name("AutoFire")
             .description("Automatically fire the bow when its held and an entity is on the same Y")
