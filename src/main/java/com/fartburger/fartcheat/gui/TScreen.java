@@ -39,7 +39,7 @@ public class TScreen extends ScreenBase {
     public static boolean outdated = false;
 
     protected TScreen(Text of) {
-        super(Text.of(""));
+        super(8);
     }
 
     public static TScreen instance() {

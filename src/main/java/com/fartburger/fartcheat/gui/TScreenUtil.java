@@ -8,7 +8,4 @@ import java.net.URISyntaxException;
 public interface TScreenUtil {
 
 
-    public default void openup() throws URISyntaxException, IOException {
-        Desktop.getDesktop().browse(new URI("http://www.example.com"));
-    }
 }

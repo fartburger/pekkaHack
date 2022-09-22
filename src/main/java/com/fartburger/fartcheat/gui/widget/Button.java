@@ -105,6 +105,9 @@ public class Button implements Element, Drawable, Selectable, HCursor {
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         isHovered = inBounds(mouseX, mouseY) && isEnabled();
+        if (!isVisible()) {
+            return;
+        }
         matrices.push();
         matrices.translate(x + width / 2d, y + height / 2d, 0);
         float animProgress = (float) Transitions.easeOutExpo(this.animProgress);
@@ -112,6 +115,17 @@ public class Button implements Element, Drawable, Selectable, HCursor {
         double originX = -width / 2d;
         double originY = -height / 2d;
         Renderer.R2D.renderRoundedQuad(matrices, new Color(30, 30, 30), originX, originY, width / 2d, height / 2d, Math.min(height / 2d, 5), 20);
+        if (animProgress != 0) {
+            Renderer.R2D.renderRoundedShadow(matrices,
+                    new Color(10, 10, 10, 100),
+                    originX,
+                    originY,
+                    width / 2d,
+                    height / 2d,
+                    Math.min(height / 2d, 5),
+                    20,
+                    animProgress * 3);
+        }
         FontRenderers.getRenderer()
                 .drawString(matrices,
                         text,

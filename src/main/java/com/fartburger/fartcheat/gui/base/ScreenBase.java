@@ -3,6 +3,7 @@ package com.fartburger.fartcheat.gui.base;
 import com.fartburger.fartcheat.FCRMain;
 import com.fartburger.fartcheat.gui.FastTickable;
 import com.fartburger.fartcheat.gui.HCursor;
+import com.fartburger.fartcheat.util.MSAAFrameBuffer;
 import com.fartburger.fartcheat.util.render.Cursor;
 import lombok.Getter;
 import net.minecraft.client.gui.screen.Screen;
@@ -17,8 +18,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 
 public class ScreenBase extends Screen implements FastTickable {
-    public ScreenBase(Text title) {
+    final int samples;
+    public ScreenBase(int samples) {
         super(Text.of(""));
+        this.samples = samples;
     }
 
     @Override
@@ -66,10 +69,9 @@ public class ScreenBase extends Screen implements FastTickable {
 
     }
 
-    public void renderInternal(MatrixStack stack, int mouseX, int mouseY, float delta) throws URISyntaxException, IOException {
+    public void renderInternal(MatrixStack stack, int mouseX, int mouseY, float delta) {
         for (Element element : getElements()) {
             element.render(stack, mouseX, mouseY);
-            System.out.println(element);
         }
     }
 
@@ -135,12 +137,14 @@ public class ScreenBase extends Screen implements FastTickable {
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         FCRMain.client.keyboard.setRepeatEvents(true);
-        try {
+        if (samples != -1) {
+            if (!MSAAFrameBuffer.framebufferInUse()) {
+                MSAAFrameBuffer.use(samples, () -> renderInternal(matrices, mouseX, mouseY, delta));
+            } else {
+                renderInternal(matrices, mouseX, mouseY, delta);
+            }
+        } else {
             renderInternal(matrices, mouseX, mouseY, delta);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

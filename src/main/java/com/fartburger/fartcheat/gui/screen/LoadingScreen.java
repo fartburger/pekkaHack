@@ -48,7 +48,7 @@ public class LoadingScreen extends ScreenBase implements FastTickable {
     double clock = 1;
     final FontAdapter fr = FontRenderers.getCustomSize(22);
     protected LoadingScreen(Text title) {
-        super(title);
+        super(8);
     }
     public static LoadingScreen instance() {
         if (INSTANCE == null) {
@@ -138,7 +138,7 @@ public class LoadingScreen extends ScreenBase implements FastTickable {
         super.initInternal();
     }
     @Override
-    public void renderInternal(MatrixStack stack, int mouseX, int mouseY, float delta) throws URISyntaxException, IOException {
+    public void renderInternal(MatrixStack stack, int mouseX, int mouseY, float delta) {
 
         if (loaded.get()) {
             TScreen.instance().renderInternal(stack, mouseX, mouseY, delta);

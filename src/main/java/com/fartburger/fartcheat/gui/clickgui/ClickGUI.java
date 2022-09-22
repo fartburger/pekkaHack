@@ -35,6 +35,11 @@ public class ClickGUI extends ScreenBase {
     List<Module> ExploitMods = new ArrayList<>();
     List<Module> OtherMods = new ArrayList<>();
     int do_c = 0;
+
+    public ClickGUI(int samples) {
+        super(samples);
+    }
+
     void categorize() {
         for(Module module : ModuleRegistry.getModules()) {
             switch(module.getModuleType().getName()) {
@@ -68,12 +73,9 @@ public class ClickGUI extends ScreenBase {
     double padding = 6;
     double fontHeight = FontRenderers.getRenderer().getFontHeight();
 
-    public ClickGUI(Text title) {
-        super(title);
-    }
     public static ClickGUI instance() {
         if (instance == null) {
-            instance = new ClickGUI(Text.of(""));
+            instance = new ClickGUI(8);
         }
         return instance;
     }

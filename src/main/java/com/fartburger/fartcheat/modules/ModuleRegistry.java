@@ -69,6 +69,7 @@ public class ModuleRegistry {
         vanillaModules.clear();
 
         registerModule(ClickGUI.class);
+        registerModule(SettingGUI.class);
         registerModule(NoFall.class);
         registerModule(Flight.class);
         registerModule(Jesus.class);

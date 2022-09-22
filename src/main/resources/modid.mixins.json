@@ -9,6 +9,7 @@
     "FluidBlockMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
+    "PlayerMoveC2SPacketAccessor",
     "SharedConstantMixin",
     "SodiumBlockOcclusionCacheMixin",
     "StatusEffectInstanceMixin"
@@ -24,6 +25,7 @@
     "ClientWorldMixin",
     "GameRendererMixin",
     "IClientPlayerInteractionManagerMixin",
+    "IMatrixStackMixin",
     "InGameHudMixin",
     "IPlayerListEntryMixin",
     "IRenderPhaseMixin",

@@ -11,6 +11,8 @@ import net.minecraft.client.input.Input;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -24,12 +26,13 @@ public class Tower extends Module {
 
     final DoubleSetting height = this.config.create(new DoubleSetting.Builder(40).name("Height")
             .description("how high to build up")
-            .min(5)
-            .max(100)
+            .min(3)
+            .max(64)
             .precision(0)
             .get());
 
     BlockPos start;
+    BlockPos lastknown;
 
     Vec3i incr;
 
@@ -64,6 +67,8 @@ public class Tower extends Module {
         timer.reset();
         BlockPos next = getNextPosition();
         if (next == null) {
+            Vec3d d = Vec3d.of(lastknown).add(0,1.05,0);
+            FCRMain.client.player.updatePosition(d.x,d.y,d.z);
             setEnabled(false);
             return;
         }
@@ -74,16 +79,22 @@ public class Tower extends Module {
 
             ItemStack is = FCRMain.client.player.getInventory().getMainHandStack();
             if (is.isEmpty()) {
+                Vec3d d = Vec3d.of(next).add(0,1.05,0);
+                FCRMain.client.player.updatePosition(d.x,d.y,d.z);
+                FCRMain.client.player.sendMessage(Text.of(Formatting.RED+"you ran out of blocks idiot"));
+                setEnabled(false);
                 return;
             }
             if (is.getItem() instanceof BlockItem bi) {
                 Block p = bi.getBlock();
                 if (p.getDefaultState().canPlaceAt(FCRMain.client.world, next)) {
                     FCRMain.client.execute(() -> {
+                        Vec3d goP = Vec3d.of(next).add(0, 1.05, 0);
+                        FCRMain.client.player.updatePosition(goP.x, goP.y+2, goP.z);
                         BlockHitResult bhr = new BlockHitResult(placeCenter, Direction.DOWN, next, false);
                         FCRMain.client.interactionManager.interactBlock(FCRMain.client.player, Hand.MAIN_HAND, bhr);
-                        Vec3d goP = Vec3d.of(next).add(0, 1.05, 0);
-                        FCRMain.client.player.updatePosition(goP.x, goP.y, goP.z);
+                        FCRMain.client.player.setVelocity(0,0,0);
+                        lastknown = next;
                     });
                 }
             }
@@ -120,9 +131,9 @@ public class Tower extends Module {
     @Override
     public void onWorldRender(MatrixStack matrices) {
         BlockPos next = getNextPosition();
-        Renderer.R3D.renderOutline(matrices, Color.RED, Vec3d.of(start), new Vec3d(0, 0.01, 0));
+        Renderer.R3D.renderOutline(matrices, Color.RED, Vec3d.of(start), new Vec3d(1, 0.01, 1));
         if (next != null) {
-            Renderer.R3D.renderOutline(matrices, Color.BLUE, Vec3d.of(next), new Vec3d(0, 1, 0));
+            Renderer.R3D.renderOutline(matrices, Color.BLUE, Vec3d.of(next), new Vec3d(1, 1, 1));
         }
     }
 

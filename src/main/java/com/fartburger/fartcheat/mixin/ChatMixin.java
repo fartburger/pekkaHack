@@ -3,6 +3,7 @@ package com.fartburger.fartcheat.mixin;
 import baritone.api.BaritoneAPI;
 import com.fartburger.fartcheat.FCRMain;
 import com.fartburger.fartcheat.config.*;
+import com.fartburger.fartcheat.gui.clickgui.SettingGUI;
 import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleRegistry;
 import com.fartburger.fartcheat.modules.hacks.*;
@@ -21,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 @Mixin(ChatScreen.class)
@@ -47,10 +49,15 @@ public abstract class ChatMixin extends Screen {
                 }
             }
             if(s.split(" ")[0].equalsIgnoreCase(".setting")) {
-                if(s.split(" ").length==1||s.split(" ").length==2) {
+                if((s.split(" ").length==1||s.split(" ").length==2)&&!s.split(" ")[1].equalsIgnoreCase("gui")) {
                     sendHelpMessage();
                     return true;
                 } else {
+                    if(s.split(" ")[1].equalsIgnoreCase("gui")) {
+                        FCRMain.client.player.sendMessage(Text.of("test"));
+                        FCRMain.client.setScreen(com.fartburger.fartcheat.gui.clickgui.SettingGUI.instance());
+                        return true;
+                    }
                     String smod = s.split(" ")[1];
                     if(ModuleRegistry.getByName(smod)!=null) {
                         if(s.split(" ")[2].equalsIgnoreCase("get")) {
