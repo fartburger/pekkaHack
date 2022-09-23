@@ -15,6 +15,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -52,6 +53,11 @@ public abstract class ChatMixin extends Screen {
                     }
                 }
             }
+            if(s.split(" ")[0].equalsIgnoreCase(".tpforward")) {
+                int distance = Integer.parseInt(s.split(" ")[1]);
+                Vec3d tpto = FCRMain.client.player.getPos().add(new Vec3d(FCRMain.client.player.getMovementDirection().getVector().getX()*distance,FCRMain.client.player.getMovementDirection().getVector().getY(),FCRMain.client.player.getMovementDirection().getVector().getZ()*distance));
+                FCRMain.client.player.updatePosition(tpto.x,tpto.y,tpto.z);
+            }
             if(s.split(" ")[0].equalsIgnoreCase(".setting")) {
                 if((s.split(" ").length==1||s.split(" ").length==2)&&!s.split(" ")[1].equalsIgnoreCase("gui")) {
                     sendHelpMessage();
@@ -62,6 +68,7 @@ public abstract class ChatMixin extends Screen {
                         FCRMain.client.setScreen(com.fartburger.fartcheat.gui.clickgui.SettingGUI.instance());
                         return true;
                     }
+
                     String smod = s.split(" ")[1];
                     if(ModuleRegistry.getByName(smod)!=null) {
                         if(s.split(" ")[2].equalsIgnoreCase("get")) {

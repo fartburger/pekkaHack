@@ -9,6 +9,8 @@ import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleType;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityPose;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 import java.util.Objects;
 
@@ -45,6 +47,7 @@ public class Phase extends Module {
 
     @Override
     public void enable() {
+        client.player.sendMessage(Text.of(Formatting.RED+"this bitch dont work!!!! dont use it"));
         client.player.setOnGround(false);
     }
 
