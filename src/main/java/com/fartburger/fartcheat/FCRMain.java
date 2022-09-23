@@ -148,6 +148,9 @@ public class FCRMain implements ModInitializer {
 		kc.put(",",GLFW.GLFW_KEY_COMMA);
 		kc.put(".",GLFW.GLFW_KEY_PERIOD);
 		kc.put("/",GLFW.GLFW_KEY_SLASH);
+		kc.put("0",GLFW.GLFW_KEY_0);
+		kc.put("RCTRL",GLFW.GLFW_KEY_RIGHT_CONTROL);
+		kc.put("RSHIFT",GLFW.GLFW_KEY_RIGHT_SHIFT);
 	}
 	void kcinverse() {
 		kcinverse.put(GLFW.GLFW_KEY_Q,"Q");
@@ -182,5 +185,8 @@ public class FCRMain implements ModInitializer {
 		kcinverse.put(GLFW.GLFW_KEY_COMMA,",");
 		kcinverse.put(GLFW.GLFW_KEY_PERIOD,".");
 		kcinverse.put(GLFW.GLFW_KEY_SLASH,"/");
+		kcinverse.put(GLFW.GLFW_KEY_0,"0");
+		kcinverse.put(GLFW.GLFW_KEY_RIGHT_CONTROL,"RCTRL");
+		kcinverse.put(GLFW.GLFW_KEY_RIGHT_SHIFT,"RSHIFT");
 	}
 }

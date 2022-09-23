@@ -11,7 +11,7 @@ public class SettingGUI extends Module {
 
     public SettingGUI() {
         super("settinggui","a visual manager for all settings", ModuleType.RENDER);
-        this.keybind.accept(GLFW.GLFW_KEY_RIGHT_CONTROL+"");
+        this.keybind.accept(GLFW.GLFW_KEY_0+"");
 
     }
     @Override

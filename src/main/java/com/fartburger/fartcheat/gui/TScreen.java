@@ -1,6 +1,9 @@
 package com.fartburger.fartcheat.gui;
 
 import com.fartburger.fartcheat.FCRMain;
+import com.fartburger.fartcheat.event.EventType;
+import com.fartburger.fartcheat.event.Events;
+import com.fartburger.fartcheat.event.events.MouseEvent;
 import com.fartburger.fartcheat.gui.base.ScreenBase;
 import com.fartburger.fartcheat.gui.widget.Button;
 import com.fartburger.fartcheat.util.font.FontRenderers;
@@ -18,6 +21,8 @@ import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
@@ -37,9 +42,27 @@ public class TScreen extends ScreenBase {
     final ParticleRenderer prend = new ParticleRenderer(600);
     keybind kb;
     public static boolean outdated = false;
+    
+    Vec2f currentMousePos = new Vec2f(0,0);
 
     protected TScreen(Text of) {
         super(8);
+        Events.registerEventHandler(EventType.MOUSE_EVENT, event -> {
+            if(((MouseEvent) event).getButton()==0&&FCRMain.client.currentScreen==TScreen.instance()) {
+                if (inBounds(currentMousePos.x, currentMousePos.y, rootX, rootY)) {
+                    FCRMain.client.setScreen(new SelectWorldScreen(this));
+                }
+                if (inBounds(currentMousePos.x, currentMousePos.y, rootX, rootY + 28)) {
+                    FCRMain.client.setScreen(new MultiplayerScreen(this));
+                }
+                if (inBounds(currentMousePos.x, currentMousePos.y, rootX, rootY + (28 * 2))) {
+                    FCRMain.client.setScreen(new RealmsMainScreen(this));
+                }
+                if (inBounds(currentMousePos.x, currentMousePos.y, rootX, rootY + (28 * 3))) {
+                    FCRMain.client.setScreen(new OptionsScreen(this, FCRMain.client.options));
+                }
+            }
+        },0);
     }
 
     public static TScreen instance() {
@@ -75,13 +98,14 @@ public class TScreen extends ScreenBase {
 
     @Override
     public void renderInternal(MatrixStack stack, int mouseX, int mouseY, float delta) {
+        currentMousePos = new Vec2f(mouseX,mouseY);
         Renderer.R2D.renderQuad(stack, Color.darkGray,0,0,width,height);
         com.fartburger.fartcheat.util.render.textures.Texture.BACKGROUND.bind();
         Renderer.R2D.renderTexture(stack, 0, 0, width, height, 0, 0, width, height, width, height);
         RenderSystem.defaultBlendFunc();
         prend.render(stack);
         propFr.drawString(stack,"pekkaHack",6,6,0xFFFFFF);
-        FontRenderers.getRenderer().drawString(stack,"Press space to select",width/2 - (FontRenderers.getRenderer().getStringWidth("Press space to select")/2),height-FontRenderers.getRenderer().getFontHeight()-3,0xFFFFFF);
+        FontRenderers.getRenderer().drawString(stack,"GOT MOUSE EVENTS WORKING!!! RAAAAHHHH!!!!!!!!",width/2 - (FontRenderers.getRenderer().getStringWidth("GOT MOUSE EVENTS WORKING!!! RAAAAHHHH!!!!!!!!")/2),height-FontRenderers.getRenderer().getFontHeight()-3,0xDD1122);
         if(outdated) {
             FontRenderers.getCustomSize(13).drawString(stack,"This version of pekkahack is outdated",this.width-FontRenderers.getCustomSize(13).getStringWidth("This version of pekkahack is outdated."),1,0xFF2222);
             FontRenderers.getCustomSize(13).drawString(stack,"Download the latest release at",this.width-FontRenderers.getCustomSize(13).getStringWidth("Download the latest release at."),FontRenderers.getCustomSize(13).getFontHeight()+2,0xFF2222);
@@ -91,21 +115,6 @@ public class TScreen extends ScreenBase {
         mplayer.render(stack, mouseX, mouseY, delta);
         realms.render(stack, mouseX, mouseY, delta);
         options.render(stack, mouseX, mouseY, delta);
-        kb = new keybind(32);
-        if(kb.keyDown()) {
-            if (inBounds(mouseX, mouseY, rootX, rootY)) {
-                FCRMain.client.setScreen(new SelectWorldScreen(this));
-            }
-            if (inBounds(mouseX, mouseY, rootX, rootY + 28)) {
-                FCRMain.client.setScreen(new MultiplayerScreen(this));
-            }
-            if (inBounds(mouseX, mouseY, rootX, rootY + (28 * 2))) {
-                FCRMain.client.setScreen(new RealmsMainScreen(this));
-            }
-            if (inBounds(mouseX, mouseY, rootX, rootY + (28 * 3))) {
-                FCRMain.client.setScreen(new OptionsScreen(this, FCRMain.client.options));
-            }
-        }
 
         //Renderer.R2D.renderRoundedQuad(stack,Color.red,50,50,100,100,5,5,5,5,20);
     }

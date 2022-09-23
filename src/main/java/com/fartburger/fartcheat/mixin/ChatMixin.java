@@ -39,7 +39,11 @@ public abstract class ChatMixin extends Screen {
     @Redirect(at=@At(value="INVOKE",target="Lnet/minecraft/client/gui/screen/ChatScreen;sendMessage(Ljava/lang/String;Z)Z"),method="keyPressed")
     boolean chat_intercept(ChatScreen instance, String s, boolean addToHistory) {
         if(s.startsWith(".")) {
-
+            if(s.split(" ")[0].equalsIgnoreCase(".help")) {
+                FCRMain.client.player.sendMessage(Text.of(Formatting.GREEN+"Toggling modules - Open clickgui(right shift) and click on module to toggle.\n" +
+                        "Viewing settings -Open settinggui(zero) and click on module to view its settings (to change them, type .setting <module> set <setting (case sensitve)> <value>)"));
+                return true;
+            }
             if(s.split(" ")[0].substring(1).equalsIgnoreCase("toggle")) {
                 for (Module module : ModuleRegistry.getModules()) {
                     if (module.getName().equalsIgnoreCase(s.split(" ")[1])) {

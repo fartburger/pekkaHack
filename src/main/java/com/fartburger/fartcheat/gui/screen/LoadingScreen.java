@@ -43,7 +43,7 @@ public class LoadingScreen extends ScreenBase implements FastTickable {
 
     final AtomicBoolean failed = new AtomicBoolean(false);
     String warningIfPresent = "";
-
+    String localver;
     double opacity = 1;
     double clock = 1;
     final FontAdapter fr = FontRenderers.getCustomSize(22);
@@ -78,7 +78,7 @@ public class LoadingScreen extends ScreenBase implements FastTickable {
         HttpResponse<String> send = ocli.send(get, HttpResponse.BodyHandlers.ofString());
         String remotever = send.body();
 
-        String localver = Util.make(() -> {
+        localver = Util.make(() -> {
             try {
                 return IOUtils.toString(Objects.requireNonNull(LoadingScreen.class.getClassLoader().getResourceAsStream("version.txt")), StandardCharsets.UTF_8);
             } catch (Exception ignored) {
@@ -153,7 +153,7 @@ public class LoadingScreen extends ScreenBase implements FastTickable {
         String dots = ".".repeat((int) Math.max(Math.ceil(anim * 3), 1));
         String stauts = loaded.get() ? "Done!" : "Loading";
         fr.drawString(stack, stauts + dots, 3, height - fr.getFontHeight() - 3, 0.7f, 0.7f, 0.7f, (float) opacity);
-        fr.drawString(stack,String.valueOf(clock),3,height-fr.getFontHeight()*2-6,0.7f,0.7f,0.7f,(float)opacity);
+        fr.drawString(stack,String.valueOf(localver),3,height-fr.getFontHeight()*2-6,0.7f,0.7f,0.7f,(float)opacity);
         if(failed.get()) {
             FontRenderers.getCustomSize(35).drawString(stack,"fuck you",this.width/2-FontRenderers.getCustomSize(45).getStringWidth("fuck you")/2,this.height/2- textRenderer.fontHeight/2,0xFF2222);
         }
