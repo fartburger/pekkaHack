@@ -104,6 +104,7 @@ public class ModuleRegistry {
         registerModule(BaseFinder.class);
         registerModule(AutoClicker.class);
         registerModule(Tower.class);
+        registerModule(Phase.class);
 
         rebuildSharedModuleList();
 
