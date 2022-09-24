@@ -1,6 +1,7 @@
 package com.fartburger.fartcheat.modules.hacks;
 
 import com.fartburger.fartcheat.FCRMain;
+import com.fartburger.fartcheat.config.DoubleSetting;
 import com.fartburger.fartcheat.config.EnumSetting;
 import com.fartburger.fartcheat.event.EventType;
 import com.fartburger.fartcheat.event.Events;
@@ -23,6 +24,12 @@ public class Flight extends Module {
 
     EnumSetting<BypassMode> bypassMode = this.config.create(new EnumSetting.Builder<>(BypassMode.Packet).name("BypassMode")
             .description("how to bypass vanilla anticheat (recommend packet mode)")
+            .get());
+    DoubleSetting speed = this.config.create(new DoubleSetting.Builder(3).name("Speed")
+            .description("how fast to fly")
+            .min(1)
+            .max(8)
+            .precision(0)
             .get());
 
     public Flight() {
@@ -82,7 +89,7 @@ public class Flight extends Module {
                 }
             },0);
         }
-        FCRMain.client.player.getAbilities().setFlySpeed(3/20f);
+        FCRMain.client.player.getAbilities().setFlySpeed(speed.getValue().floatValue()/20f);
         FCRMain.client.player.getAbilities().flying=true;
     }
 

@@ -85,7 +85,7 @@ public class Tracers extends Module {
             } else {
                 c = Color.GREEN;
             }
-            c = Renderer.Util.modify(c, -1, -1, -1, (int) Math.floor(dc * 255));
+            c = Renderer.Util.modify(c, -1, -1, -1, 255);
             if (isEntityApplicable(entity)) {
                 Vec3d pos = Utils.getInterpolatedEntityPosition(entity);
                 Renderer.R3D.renderLine(matrices, c, Renderer.R3D.getCrosshairVector(), pos.add(0, entity.getHeight() / 2, 0));

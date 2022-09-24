@@ -154,6 +154,7 @@ public class LoadingScreen extends ScreenBase implements FastTickable {
         String stauts = loaded.get() ? "Done!" : "Loading";
         fr.drawString(stack, stauts + dots, 3, height - fr.getFontHeight() - 3, 0.7f, 0.7f, 0.7f, (float) opacity);
         fr.drawString(stack,String.valueOf(localver),3,height-fr.getFontHeight()*2-6,0.7f,0.7f,0.7f,(float)opacity);
+        Renderer.R2D.renderLoadingSpinner(stack,255,this.width/2,this.height/2,20d,20d,5d);
         if(failed.get()) {
             FontRenderers.getCustomSize(35).drawString(stack,"fuck you",this.width/2-FontRenderers.getCustomSize(45).getStringWidth("fuck you")/2,this.height/2- textRenderer.fontHeight/2,0xFF2222);
         }

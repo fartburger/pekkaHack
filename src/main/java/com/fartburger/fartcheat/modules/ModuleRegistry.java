@@ -82,6 +82,7 @@ public class ModuleRegistry {
         registerModule(StorageESP.class);
         registerModule(PingSpoof.class);
         registerModule(KillAura.class);
+        registerModule(Criticals.class);
         registerModule(Reach.class);
         registerModule(AutoTool.class);
         registerModule(SuperReach.class);
@@ -105,6 +106,11 @@ public class ModuleRegistry {
         registerModule(AutoClicker.class);
         registerModule(Tower.class);
         registerModule(Phase.class);
+        registerModule(AirJump.class);
+        registerModule(AntiRotation.class);
+        registerModule(RangeNotifier.class);
+        registerModule(Bart.class);
+
 
         rebuildSharedModuleList();
 

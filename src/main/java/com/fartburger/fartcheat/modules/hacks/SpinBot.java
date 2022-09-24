@@ -14,6 +14,7 @@ import net.minecraft.util.Hand;
 import java.util.Objects;
 
 public class SpinBot extends Module {
+    int a=0;
     final DoubleSetting speed = this.config.create(new DoubleSetting.Builder(5).name("Delay")
             .description("How much to wait when spinning")
             .min(0)
@@ -50,14 +51,9 @@ public class SpinBot extends Module {
     }
 
     @Override
-    public void onFastTick() {
-        timeout--; // decrease timeout
-        if (timeout > 0) {
-            return; // if timeout isn't expired, do nothing
-        }
-        timeout = (int) Math.floor(speed.getValue()); // timeout expired, set it back to full
-        Rotations.setClientPitch((float) ((Math.random() * 60) - 30));
-        Rotations.setClientYaw((float) (Math.random() * 360));
+    public void onFastTick() {// timeout expired, set it back to full
+        a++;
+        Rotations.setClientYaw((float) a%360);
         PlayerMoveC2SPacket p1 = new PlayerMoveC2SPacket.LookAndOnGround(Rotations.getClientYaw(),
                 Rotations.getClientPitch(),
                 Objects.requireNonNull(FCRMain.client.player).isOnGround());

@@ -17,12 +17,14 @@ public class ParticleRenderer {
     public final boolean shouldAdd = true;
     final int pc;
     long lastTick = System.currentTimeMillis();
+    public static Color pcolor;
 
-    public ParticleRenderer(int pc) {
+    public ParticleRenderer(int pc,Color pcolor) {
         this.pc = pc;
         for (int i = 0; i < pc; i++) {
             addParticle();
         }
+        this.pcolor = pcolor;
     }
 
     void addParticle() {
@@ -101,7 +103,7 @@ public class ParticleRenderer {
             pk = Transitions.easeOutExpo(pk);
             stack.push();
             double radToUse = pk * circleRad;
-            Renderer.R2D.renderCircle(stack, Renderer.Util.lerp(new Color(43, 63, 248), DYING, pk), x - radToUse / 2d, y - radToUse / 2d, radToUse, 30);
+            Renderer.R2D.renderCircle(stack, Renderer.Util.lerp(pcolor, DYING, pk), x - radToUse / 2d, y - radToUse / 2d, radToUse, 30);
             stack.pop();
         }
 

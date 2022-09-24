@@ -23,6 +23,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vector4f;
+import net.minecraft.util.math.random.Random;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
@@ -39,9 +40,12 @@ public class TScreen extends ScreenBase {
     static final double padding = 6;
     private static TScreen instance;
     final FontAdapter propFr = FontRenderers.getCustomSize(22);
-    final ParticleRenderer prend = new ParticleRenderer(600);
+    public static boolean isBart = (double) Random.create().nextFloat()<1.0E-2D;
+    final ParticleRenderer prend = isBart ? new ParticleRenderer(600,new Color(210, 206, 20)) : new ParticleRenderer(600,new Color(43, 63, 248)) ;
     keybind kb;
     public static boolean outdated = false;
+
+
     
     Vec2f currentMousePos = new Vec2f(0,0);
 
@@ -100,7 +104,11 @@ public class TScreen extends ScreenBase {
     public void renderInternal(MatrixStack stack, int mouseX, int mouseY, float delta) {
         currentMousePos = new Vec2f(mouseX,mouseY);
         Renderer.R2D.renderQuad(stack, Color.darkGray,0,0,width,height);
-        com.fartburger.fartcheat.util.render.textures.Texture.BACKGROUND.bind();
+        if(isBart) {
+            com.fartburger.fartcheat.util.render.textures.Texture.BART.bind();
+        } else {
+            com.fartburger.fartcheat.util.render.textures.Texture.BACKGROUND.bind();
+        }
         Renderer.R2D.renderTexture(stack, 0, 0, width, height, 0, 0, width, height, width, height);
         RenderSystem.defaultBlendFunc();
         prend.render(stack);

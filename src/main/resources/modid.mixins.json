@@ -10,6 +10,7 @@
     "LivingEntityMixin",
     "PlayerEntityMixin",
     "PlayerMoveC2SPacketAccessor",
+    "PlayerPositionLookS2CPacketAccessor",
     "SharedConstantMixin",
     "SodiumBlockOcclusionCacheMixin",
     "StatusEffectInstanceMixin"
@@ -23,6 +24,7 @@
     "ClientPlayerInteractionManagerMixin",
     "ClientPlayNetworkHandlerMixin",
     "ClientWorldMixin",
+    "ClientWorldMixin2",
     "GameRendererMixin",
     "IClientPlayerInteractionManagerMixin",
     "IMatrixStackMixin",
