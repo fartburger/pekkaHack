@@ -10,6 +10,8 @@ import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleRegistry;
 import com.fartburger.fartcheat.modules.ModuleType;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 
 public class AntiRotation extends Module {
@@ -21,6 +23,12 @@ public class AntiRotation extends Module {
             if (((PacketEvent) event).getPacket() instanceof PlayerPositionLookS2CPacket && ModuleRegistry.getByClass(AntiRotation.class).isEnabled() && FCRMain.client.player!=null) {
                 ((PlayerPositionLookS2CPacketAccessor) pe.getPacket()).setPitch(FCRMain.client.player.getPitch());
                 ((PlayerPositionLookS2CPacketAccessor) pe.getPacket()).setYaw(FCRMain.client.player.getYaw());
+            }
+        },0);
+        Events.registerEventHandler(EventType.PACKET_SEND,event -> {
+            PacketEvent pe = (PacketEvent) event;
+            if(pe.getPacket() instanceof PlayerMoveC2SPacket.LookAndOnGround) {
+                event.setCancelled(true);
             }
         },0);
     }

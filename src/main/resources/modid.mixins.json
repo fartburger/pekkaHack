@@ -5,12 +5,14 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AbstractBlockStateMixin",
+    "CactusBlockMixin",
     "ClientConnectionMixin",
     "FluidBlockMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
     "PlayerMoveC2SPacketAccessor",
     "PlayerPositionLookS2CPacketAccessor",
+    "PowderSnowBlockMixin",
     "SharedConstantMixin",
     "SodiumBlockOcclusionCacheMixin",
     "StatusEffectInstanceMixin"
@@ -32,6 +34,7 @@
     "IPlayerListEntryMixin",
     "IRenderPhaseMixin",
     "KeyboardMixin",
+    "LivingEntityRendererMixin",
     "MinecraftClientMixin",
     "MinecraftClientMixin2",
     "MinecraftClientMixin3",

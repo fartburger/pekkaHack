@@ -9,7 +9,7 @@ import com.fartburger.fartcheat.event.Events;
 import com.fartburger.fartcheat.event.events.MouseEvent;
 import com.fartburger.fartcheat.gui.base.ScreenBase;
 import com.fartburger.fartcheat.gui.clickgui.elements.TextFieldElement;
-import com.fartburger.fartcheat.gui.widget.Button;
+import com.fartburger.fartcheat.gui.widget.RoundButton;
 import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleRegistry;
 import com.fartburger.fartcheat.util.font.FontRenderers;

@@ -2,6 +2,7 @@ package com.fartburger.fartcheat.gui.widget;
 
 import com.fartburger.fartcheat.gui.HCursor;
 import com.fartburger.fartcheat.util.Transitions;
+import com.fartburger.fartcheat.util.Utils;
 import com.fartburger.fartcheat.util.font.FontRenderers;
 import com.fartburger.fartcheat.util.render.Renderer;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
 
-public class Button implements Element, Drawable, Selectable, HCursor {
+public class RoundButton implements Element, Drawable, Selectable, HCursor {
 
     final Runnable onPress;
     final Color textColor;
@@ -29,7 +30,7 @@ public class Button implements Element, Drawable, Selectable, HCursor {
     @Getter
     boolean visible = true;
 
-    public Button(Color color,double x,double y,double w, double h,String t, Runnable a) {
+    public RoundButton(Color color,double x,double y,double w, double h,String t, Runnable a) {
         this.onPress = a;
         this.x = x;
         this.y = y;
@@ -93,7 +94,7 @@ public class Button implements Element, Drawable, Selectable, HCursor {
     }
 
     public void onFastTick() {
-        double d = 0.04;
+        double d = 0.08;
         if (!isHovered) {
             d *= -1;
         }
@@ -114,10 +115,10 @@ public class Button implements Element, Drawable, Selectable, HCursor {
         matrices.scale(MathHelper.lerp(animProgress, 1f, 1.01f), MathHelper.lerp(animProgress, 1f, 1.01f), 1f);
         double originX = -width / 2d;
         double originY = -height / 2d;
-        Renderer.R2D.renderRoundedQuad(matrices, new Color(30, 30, 30), originX, originY, width / 2d, height / 2d, Math.min(height / 2d, 5), 20);
+        Renderer.R2D.renderRoundedQuad(matrices, new Color(27, 148, 217), originX, originY, width / 2d, height / 2d, Math.min(height / 2d, 5), 20);
         if (animProgress != 0) {
             Renderer.R2D.renderRoundedShadow(matrices,
-                    new Color(10, 10, 10, 100),
+                    Renderer.Util.modify(Utils.getCurrentRGB(),-1,-1,-1,250).darker(),
                     originX,
                     originY,
                     width / 2d,

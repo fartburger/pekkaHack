@@ -5,7 +5,7 @@ import com.fartburger.fartcheat.event.EventType;
 import com.fartburger.fartcheat.event.Events;
 import com.fartburger.fartcheat.event.events.MouseEvent;
 import com.fartburger.fartcheat.gui.base.ScreenBase;
-import com.fartburger.fartcheat.gui.widget.Button;
+import com.fartburger.fartcheat.gui.widget.RoundButton;
 import com.fartburger.fartcheat.util.font.FontRenderers;
 import com.fartburger.fartcheat.util.font.adapters.FontAdapter;
 import com.fartburger.fartcheat.util.font.renderer.FontRenderer;
@@ -44,6 +44,7 @@ public class TScreen extends ScreenBase {
     final ParticleRenderer prend = isBart ? new ParticleRenderer(600,new Color(210, 206, 20)) : new ParticleRenderer(600,new Color(43, 63, 248)) ;
     keybind kb;
     public static boolean outdated = false;
+    final String motd = "TITLE SCREEN BUTTON ANIMATIONS!!!!";
 
 
     
@@ -52,7 +53,7 @@ public class TScreen extends ScreenBase {
     protected TScreen(Text of) {
         super(8);
         Events.registerEventHandler(EventType.MOUSE_EVENT, event -> {
-            if(((MouseEvent) event).getButton()==0&&FCRMain.client.currentScreen==TScreen.instance()) {
+            if(((MouseEvent) event).getButton()==0&&FCRMain.client.currentScreen==TScreen.instance()&&((MouseEvent)event).getAction()==1) {
                 if (inBounds(currentMousePos.x, currentMousePos.y, rootX, rootY)) {
                     FCRMain.client.setScreen(new SelectWorldScreen(this));
                 }
@@ -65,8 +66,9 @@ public class TScreen extends ScreenBase {
                 if (inBounds(currentMousePos.x, currentMousePos.y, rootX, rootY + (28 * 3))) {
                     FCRMain.client.setScreen(new OptionsScreen(this, FCRMain.client.options));
                 }
+                event.setCancelled(true);
             }
-        },0);
+        },1);
     }
 
     public static TScreen instance() {
@@ -95,10 +97,10 @@ public class TScreen extends ScreenBase {
         return cx >= x && cx < x + 75 && cy >= y && cy < y + 20;
     }
     double rootX = 15; double rootY = 30;
-    Button splayer = new Button(Color.red,15,rootY,75,25,"Singleplayer",() -> FCRMain.client.setScreen(new SelectWorldScreen(this)));
-    Button mplayer = new Button(Color.red,rootX,rootY+(28),75,25,"Multiplayer",() -> FCRMain.client.setScreen(new MultiplayerScreen(this)));
-    Button realms = new Button(Color.red,rootX,rootY+(28*2),75,25,"Realms",() -> FCRMain.client.setScreen(new RealmsMainScreen(this)));
-    Button options = new Button(Color.red,rootX,rootY+(28*3),75,25,"Options",() -> FCRMain.client.setScreen(new OptionsScreen(this, FCRMain.client.options)));
+    RoundButton splayer = new RoundButton(Color.WHITE,15,rootY,75,25,"Singleplayer",() -> System.out.println("hi"));
+    RoundButton mplayer = new RoundButton(Color.WHITE,rootX,rootY+(28),75,25,"Multiplayer",() -> System.out.println("hi"));
+    RoundButton realms = new RoundButton(Color.WHITE,rootX,rootY+(28*2),75,25,"Realms",() -> System.out.println("hi"));
+    RoundButton options = new RoundButton(Color.WHITE,rootX,rootY+(28*3),75,25,"Options",() -> System.out.println("hi"));
 
     @Override
     public void renderInternal(MatrixStack stack, int mouseX, int mouseY, float delta) {
@@ -113,7 +115,7 @@ public class TScreen extends ScreenBase {
         RenderSystem.defaultBlendFunc();
         prend.render(stack);
         propFr.drawString(stack,"pekkaHack",6,6,0xFFFFFF);
-        FontRenderers.getRenderer().drawString(stack,"GOT MOUSE EVENTS WORKING!!! RAAAAHHHH!!!!!!!!",width/2 - (FontRenderers.getRenderer().getStringWidth("GOT MOUSE EVENTS WORKING!!! RAAAAHHHH!!!!!!!!")/2),height-FontRenderers.getRenderer().getFontHeight()-3,0xDD1122);
+        FontRenderers.getRenderer().drawString(stack,isBart ? "get barted on lol" : motd,width/2 - (FontRenderers.getRenderer().getStringWidth(motd)/2),height-FontRenderers.getRenderer().getFontHeight()-3,0xDD1122);
         if(outdated) {
             FontRenderers.getCustomSize(13).drawString(stack,"This version of pekkahack is outdated",this.width-FontRenderers.getCustomSize(13).getStringWidth("This version of pekkahack is outdated."),1,0xFF2222);
             FontRenderers.getCustomSize(13).drawString(stack,"Download the latest release at",this.width-FontRenderers.getCustomSize(13).getStringWidth("Download the latest release at."),FontRenderers.getCustomSize(13).getFontHeight()+2,0xFF2222);
@@ -123,6 +125,10 @@ public class TScreen extends ScreenBase {
         mplayer.render(stack, mouseX, mouseY, delta);
         realms.render(stack, mouseX, mouseY, delta);
         options.render(stack, mouseX, mouseY, delta);
+        splayer.onFastTick();
+        mplayer.onFastTick();
+        realms.onFastTick();
+        options.onFastTick();
 
         //Renderer.R2D.renderRoundedQuad(stack,Color.red,50,50,100,100,5,5,5,5,20);
     }

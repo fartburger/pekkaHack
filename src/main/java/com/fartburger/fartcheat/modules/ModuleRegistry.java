@@ -110,13 +110,13 @@ public class ModuleRegistry {
         registerModule(AntiRotation.class);
         registerModule(RangeNotifier.class);
         registerModule(Bart.class);
+        registerModule(SnowWalk.class);
+        registerModule(AntiCactus.class);
+        registerModule(TrueSight.class);
 
 
         rebuildSharedModuleList();
 
-        for (Module module : getModules()) {
-            //module.postModuleInit();
-        }
         //FCRMain.log(Level.INFO, "Initialized modules. Vanilla modules:", vanillaModules.size(), "Addon modules:", customModules.size());
     }
 
