@@ -6,6 +6,7 @@ import com.fartburger.fartcheat.event.Events;
 import com.fartburger.fartcheat.event.events.MouseEvent;
 import com.fartburger.fartcheat.gui.base.ScreenBase;
 import com.fartburger.fartcheat.gui.widget.RoundButton;
+import com.fartburger.fartcheat.util.Utils;
 import com.fartburger.fartcheat.util.font.FontRenderers;
 import com.fartburger.fartcheat.util.font.adapters.FontAdapter;
 import com.fartburger.fartcheat.util.font.renderer.FontRenderer;
@@ -39,12 +40,14 @@ public class TScreen extends ScreenBase {
 
     static final double padding = 6;
     private static TScreen instance;
+    public static String latestfromgithub;
     final FontAdapter propFr = FontRenderers.getCustomSize(22);
     public static boolean isBart = (double) Random.create().nextFloat()<1.0E-2D;
     final ParticleRenderer prend = isBart ? new ParticleRenderer(600,new Color(210, 206, 20)) : new ParticleRenderer(600,new Color(43, 63, 248)) ;
     keybind kb;
     public static boolean outdated = false;
     final String motd = "TITLE SCREEN BUTTON ANIMATIONS!!!!";
+    int chars;
 
 
     
@@ -93,8 +96,28 @@ public class TScreen extends ScreenBase {
         super.init();
         initWidgets();
     }
+
     boolean inBounds(double cx, double cy,double x,double y) {
         return cx >= x && cx < x + 75 && cy >= y && cy < y + 20;
+    }
+    String[] wrapText(String s,FontAdapter fr,double w) {
+        List<String> toreturn = new ArrayList<>();
+        int maxchars = ((int) Math.floor(fr.getStringWidth(s)/w)) == 0 ? 1 : (int) Math.floor(fr.getStringWidth(s)/w);
+        int len = s.length();
+
+        if(maxchars!=0) {
+            chars = len / maxchars;
+        } else {
+            chars=len;
+        }
+        String[] parts = new String[maxchars];
+        int temp = 0;
+        for (int i=0;i<len;i=i+chars) {
+            String part =s.substring(i,i+chars);
+            parts[temp] = part;
+            temp++;
+        }
+        return parts;
     }
     double rootX = 15; double rootY = 30;
     RoundButton splayer = new RoundButton(Color.WHITE,15,rootY,75,25,"Singleplayer",() -> System.out.println("hi"));
@@ -130,6 +153,15 @@ public class TScreen extends ScreenBase {
         realms.onFastTick();
         options.onFastTick();
 
+        Renderer.R2D.renderRoundedOutline(stack,Renderer.Util.modify(Utils.getCurrentRGB(),-1,-1,-1,255).darker(), (double) 15,(double) (30+28*3)+50,(double) 15+80,(double) (30+28*3)+200,3,3,3,3,1,20);
+        Renderer.R2D.renderRoundedQuad(stack,new Color(107, 107, 107),15,(30+28*3)+50,15+80,(30+28*3)+200,3,20);
+        FontRenderers.getCustomSize(16).drawString(stack,"Latest update",(15+95)/2-FontRenderers.getCustomSize(16).getStringWidth("Latest update")/2,((30+28*3)+50)+3,0xFFFFFF);
+        FontRenderers.getCustomSize(16).drawString(stack,"from github:",(15+95)/2-FontRenderers.getCustomSize(16).getStringWidth("from github:")/2,((30+28*3)+50)+3+FontRenderers.getCustomSize(16).getFontHeight()+2,0xFFFFFF);
+        int ghi = 1;
+        for (String s : wrapText(latestfromgithub,FontRenderers.getCustomSize(14),80)) {
+            FontRenderers.getCustomSize(14).drawString(stack,s,(15+95)/2-FontRenderers.getCustomSize(14).getStringWidth(s)/2,(((30+28*3)+55)+3+FontRenderers.getCustomSize(16).getFontHeight()+2)+FontRenderers.getCustomSize(14).getFontHeight()*ghi+2,0xCCCCFF);
+            ghi++;
+        }
         //Renderer.R2D.renderRoundedQuad(stack,Color.red,50,50,100,100,5,5,5,5,20);
     }
 }

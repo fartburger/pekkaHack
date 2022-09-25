@@ -10,6 +10,10 @@ import com.fartburger.fartcheat.util.font.FontRenderers;
 import com.fartburger.fartcheat.util.font.adapters.FontAdapter;
 import com.fartburger.fartcheat.util.render.Renderer;
 import com.fartburger.fartcheat.util.render.textures.Texture;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import net.minecraft.client.util.math.MatrixStack;
@@ -18,6 +22,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.Level;
+import org.json.*;
 
 import java.awt.*;
 import java.io.BufferedInputStream;
@@ -78,6 +83,17 @@ public class LoadingScreen extends ScreenBase implements FastTickable {
         HttpRequest get = HttpRequest.newBuilder().uri(uri).header("User-Agent", "pekka/1.0").build();
         HttpResponse<String> send = ocli.send(get, HttpResponse.BodyHandlers.ofString());
         String remotever = send.body();
+
+        HttpClient ocli2 = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build();
+        URI uri2 = URI.create("https://api.github.com/repos/fartburger/pekkaHack/commits");
+        HttpRequest get2 = HttpRequest.newBuilder().uri(uri2).header("User-Agent", "pekka/1.0").build();
+        HttpResponse<String> send2 = ocli2.send(get2, HttpResponse.BodyHandlers.ofString());
+        String sha = send2.body();
+        JSONArray ja = new JSONArray(sha);
+        JSONObject jo = ja.getJSONObject(0);
+        JSONObject jo2 = jo.getJSONObject("commit");
+        TScreen.latestfromgithub = jo2.getString("message");
+
 
         localver = Util.make(() -> {
             try {
@@ -155,10 +171,10 @@ public class LoadingScreen extends ScreenBase implements FastTickable {
         String stauts = loaded.get() ? "Done!" : "Loading";
         fr.drawString(stack, stauts + dots, 3, height - fr.getFontHeight() - 3, 0.7f, 0.7f, 0.7f, (float) opacity);
         fr.drawString(stack,String.valueOf(localver),3,height-fr.getFontHeight()*2-6,0.7f,0.7f,0.7f,(float)opacity);
-        Renderer.R2D.renderLoadingSpinner(stack,255,this.width/2,this.height/2,20d,20d,5d);
+        Renderer.R2D.renderLoadingSpinner(stack,150,this.width/2,this.height/2,20d,20d,55d);
 
         if(failed.get()) {
-            FontRenderers.getCustomSize(35).drawString(stack,"fuck you",this.width/2-FontRenderers.getCustomSize(45).getStringWidth("fuck you")/2,this.height/2- textRenderer.fontHeight/2,0xFF2222);
+            FontRenderers.getCustomSize(35).drawString(stack,"something went wrong",this.width/2-FontRenderers.getCustomSize(45).getStringWidth("something went wrong")/2,this.height/2- textRenderer.fontHeight/2,0xFF2222);
         }
         stack.push();
     }
