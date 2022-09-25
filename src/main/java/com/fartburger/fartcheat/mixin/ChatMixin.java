@@ -41,7 +41,7 @@ public abstract class ChatMixin extends Screen {
     }
     @Redirect(at=@At(value="INVOKE",target="Lnet/minecraft/client/gui/screen/ChatScreen;sendMessage(Ljava/lang/String;Z)Z"),method="keyPressed")
     boolean chat_intercept(ChatScreen instance, String s, boolean addToHistory) {
-        if(s.startsWith(".")) {
+        if(s.startsWith(".")||s.startsWith("@")) {
             if(s.split(" ")[0].equalsIgnoreCase(".help")) {
                 FCRMain.client.player.sendMessage(Text.of(Formatting.GREEN+"Toggling modules - Open clickgui(right shift) and click on module to toggle.\n" +
                         "Viewing settings -Open settinggui(zero) and click on module to view its settings (to change them, type .setting <module> set <setting (case sensitve)> <value>)"));
@@ -103,9 +103,13 @@ public abstract class ChatMixin extends Screen {
                     }
                 }
             }
-            if(s.split(" ")[0].equalsIgnoreCase(".baritone")||s.split(" ")[0].equalsIgnoreCase(".b")) {
-                int offset = s.split(" ")[0].length()+1;
-                BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute(s.substring(offset));
+            if(s.split(" ")[0].equalsIgnoreCase(".baritone")||s.split(" ")[0].equalsIgnoreCase(".b")||s.startsWith("@")) {
+                if(s.startsWith("@")) {
+                    BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute(s.substring(1));
+                } else {
+                    int offset = s.split(" ")[0].length() + 1;
+                    BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute(s.substring(offset));
+                }
             }
             if(s.split(" ")[0].equalsIgnoreCase(".bind")) {
                 if(ModuleRegistry.getByName(s.split(" ")[1])!=null) {

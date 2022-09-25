@@ -70,6 +70,7 @@ public class ModuleRegistry {
 
         registerModule(ClickGUI.class);
         registerModule(SettingGUI.class);
+        registerModule(BaritoneGUI.class);
         registerModule(NoFall.class);
         registerModule(Flight.class);
         registerModule(Jesus.class);
@@ -113,6 +114,7 @@ public class ModuleRegistry {
         registerModule(SnowWalk.class);
         registerModule(AntiCactus.class);
         registerModule(TrueSight.class);
+        registerModule(ColorSign.class);
 
 
         rebuildSharedModuleList();
