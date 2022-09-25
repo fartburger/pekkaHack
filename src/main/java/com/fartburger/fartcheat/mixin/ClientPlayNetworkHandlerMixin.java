@@ -1,5 +1,6 @@
 package com.fartburger.fartcheat.mixin;
 
+import com.fartburger.fartcheat.FCRMain;
 import com.fartburger.fartcheat.modules.ModuleRegistry;
 import com.fartburger.fartcheat.modules.hacks.AllHearingEar;
 import com.fartburger.fartcheat.util.Utils;
@@ -7,6 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
 import net.minecraft.network.packet.s2c.play.MessageHeaderS2CPacket;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,7 +26,7 @@ public class ClientPlayNetworkHandlerMixin {
         var signature = packet.headerSignature().data();
         AllHearingEar.SignatureTracker.addSignature(sender.getUuid(), signature);
         if (ModuleRegistry.getByClass(AllHearingEar.class).isEnabled()) {
-            Utils.Logging.message(Formatting.AQUA + senderName + Formatting.GREEN + " just sent a private message");
+            FCRMain.client.player.sendMessage(Text.of(Formatting.AQUA+senderName+Formatting.GREEN+" just sent a private message"));
         }
     }
 
@@ -41,8 +43,7 @@ public class ClientPlayNetworkHandlerMixin {
                         var receiver = MinecraftClient.getInstance().world.getPlayerByUuid(packet.message().signedHeader().sender());
                         var sender = MinecraftClient.getInstance().world.getPlayerByUuid(entry.profileId());
                         if (sender != receiver) {
-                            Utils.Logging.message(Formatting.AQUA + receiver.getName()
-                                    .getString() + Formatting.GREEN + " received a private message from " + Formatting.AQUA + sender.getName().getString());
+                            FCRMain.client.player.sendMessage(Text.of(Formatting.AQUA+receiver.getName().getString()+Formatting.GREEN+" just received a private message from " + Formatting.AQUA + sender.getName().getString()));
                         }
                     }
                 }

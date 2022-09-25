@@ -11,6 +11,8 @@ import com.fartburger.fartcheat.modules.Module;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 public class FCRMain implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
@@ -59,6 +62,8 @@ public class FCRMain implements ModInitializer {
 		ConfigManager.loadState();
 		log(Level.INFO,"initializing...");
 	}
+
+
 
 	void initFonts() {
 		try {

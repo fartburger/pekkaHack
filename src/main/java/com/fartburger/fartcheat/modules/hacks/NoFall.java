@@ -6,7 +6,9 @@ import com.fartburger.fartcheat.event.events.PacketEvent;
 import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleType;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
 
 public class NoFall extends Module {
     public boolean enabled = true;

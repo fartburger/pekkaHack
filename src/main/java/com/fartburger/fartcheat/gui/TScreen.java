@@ -100,9 +100,8 @@ public class TScreen extends ScreenBase {
     boolean inBounds(double cx, double cy,double x,double y) {
         return cx >= x && cx < x + 75 && cy >= y && cy < y + 20;
     }
-    String[] wrapText(String s,FontAdapter fr,double w) {
-        List<String> toreturn = new ArrayList<>();
-        int maxchars = ((int) Math.floor(fr.getStringWidth(s)/w)) == 0 ? 1 : (int) Math.floor(fr.getStringWidth(s)/w);
+    List<String> wrapText(String s,FontAdapter fr,double w) {
+        int maxchars = ((int) Math.ceil(fr.getStringWidth(s)/w));
         int len = s.length();
 
         if(maxchars!=0) {
@@ -110,11 +109,11 @@ public class TScreen extends ScreenBase {
         } else {
             chars=len;
         }
-        String[] parts = new String[maxchars];
+        List<String> parts = new ArrayList<>();
         int temp = 0;
         for (int i=0;i<len;i=i+chars) {
-            String part =s.substring(i,i+chars);
-            parts[temp] = part;
+            String part = s.substring(i, Math.min((i + chars), len));
+            parts.add(part);
             temp++;
         }
         return parts;

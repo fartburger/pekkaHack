@@ -22,7 +22,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.Level;
-import org.json.*;
+import fart.json.*;
 
 import java.awt.*;
 import java.io.BufferedInputStream;
