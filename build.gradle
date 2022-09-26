@@ -50,7 +50,7 @@ dependencies {
 	mappings("net.fabricmc:yarn:${project.yarn_mappings}:v2")
 	modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 	implementation 'org.json:json:20220320'
-	implementation 'commons-net:commons-net:3.8.0'
+	implementation ('commons-net:commons-net:3.8.0')
 	// Lombok
 
 	compileOnly(group: "org.projectlombok", name: "lombok", version: "1.18.24")
