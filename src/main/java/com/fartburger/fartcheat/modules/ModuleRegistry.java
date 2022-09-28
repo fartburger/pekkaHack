@@ -2,6 +2,7 @@ package com.fartburger.fartcheat.modules;
 
 import com.fartburger.fartcheat.FCRMain;
 import com.fartburger.fartcheat.modules.hacks.*;
+import com.fartburger.fartcheat.modules.hacks.HiveMind.HiveMind;
 import org.apache.logging.log4j.Level;
 
 import java.lang.reflect.Constructor;
@@ -92,6 +93,7 @@ public class ModuleRegistry {
         registerModule(Freecam.class);
         registerModule(AllowFormatCodes.class);
         registerModule(PortalGUI.class);
+        registerModule(HiveMind.class);
         registerModule(InstaBow.class);
         registerModule(ESP.class);
         registerModule(SpinBot.class);

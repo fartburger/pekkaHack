@@ -14,6 +14,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -72,6 +73,18 @@ public class Utils {
         Vec3d b = new Vec3d(entity.prevX, entity.prevY, entity.prevZ);
         float p = FCRMain.client.getTickDelta();
         return new Vec3d(MathHelper.lerp(p, b.x, a.x), MathHelper.lerp(p, b.y, a.y), MathHelper.lerp(p, b.z, a.z));
+    }
+
+    public static void chatLog(String message) {
+        if(FCRMain.client.player!=null) {
+            FCRMain.client.player.sendMessage(Text.of(Formatting.BLUE+message));
+        }
+    }
+
+    public static void chatError(String message) {
+        if(FCRMain.client.player!=null) {
+            FCRMain.client.player.sendMessage(Text.of(Formatting.RED+"[ERROR]: "+message));
+        }
     }
 
     public static String nameToTitle(String name) {

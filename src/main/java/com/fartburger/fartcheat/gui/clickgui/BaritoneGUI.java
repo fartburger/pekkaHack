@@ -30,10 +30,11 @@ public class BaritoneGUI extends ScreenBase {
     Vec2f cmp = new Vec2f(0,0);
 
     final FontAdapter titleFont = FontRenderers.getCustomSize(22);
-    final FontAdapter textFont = FontRenderers.getCustomSize(16);
+    final FontAdapter textFont = FontRenderers.getCustomSize(14);
 
     public BaritoneGUI(int samples) {
         super(8);
+        /*
         Events.registerEventHandler(EventType.MOUSE_EVENT, event -> {
             MouseEvent e = ((MouseEvent)event);
             if(inBounds(cmp.x,cmp.y,55,85)) {
@@ -45,6 +46,8 @@ public class BaritoneGUI extends ScreenBase {
                 }
             }
         },0);
+
+         */
     }
 
     public static BaritoneGUI instance() {
@@ -84,11 +87,11 @@ public class BaritoneGUI extends ScreenBase {
         cmp = new Vec2f(mouseX,mouseY);
         Renderer.R2D.renderRoundedQuad(matrices,new Color(76, 83, 220),35,35,this.width-35,this.height-35,3,20);
         titleFont.drawString(matrices,"Baritone GUI",this.width/2-titleFont.getStringWidth("Baritone GUI")/2,37,new Color(184, 228, 241).getRGB());
-        Texture.UNDERCONSTRUCTION.bind();
+        Texture.BART.bind();
         Renderer.R2D.renderTexture(matrices,155,65,this.width-310,this.height-140,0,0,this.width-310,this.height-140,this.width-310,this.height-140);
-        textFont.drawString(matrices,"Under Construction",this.width/2-textFont.getStringWidth("Under Construction")/2,(this.height-65),new Color(229, 127, 65).getRGB());
-        b.render(matrices,mouseX,mouseY,delta);
-        b.onFastTick();
+        textFont.drawString(matrices,"This feature will be available in pekkaHack 3.0",this.width/2-textFont.getStringWidth("This feature will be available in pekkaHack 3.0")/2,(this.height-65),new Color(229, 127, 65).getRGB());
+        //b.render(matrices,mouseX,mouseY,delta);
+        //b.onFastTick();
     }
 
 }
