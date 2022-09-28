@@ -27,6 +27,7 @@ public class BaritoneGUI extends Module {
     @Override
     public void enable() {
         t=2;
+        com.fartburger.fartcheat.gui.clickgui.BaritoneGUI.initButtons();
     }
 
     @Override

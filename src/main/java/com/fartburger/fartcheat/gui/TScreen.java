@@ -53,8 +53,8 @@ public class TScreen extends ScreenBase {
     
     Vec2f currentMousePos = new Vec2f(0,0);
 
-    protected TScreen(Text of) {
-        super(8);
+    protected TScreen(int samples) {
+        super(samples);
         Events.registerEventHandler(EventType.MOUSE_EVENT, event -> {
             if(((MouseEvent) event).getButton()==0&&FCRMain.client.currentScreen==TScreen.instance()&&((MouseEvent)event).getAction()==1) {
                 if (inBounds(currentMousePos.x, currentMousePos.y, rootX, rootY)) {
@@ -76,7 +76,7 @@ public class TScreen extends ScreenBase {
 
     public static TScreen instance() {
         if (instance == null) {
-            instance = new TScreen(Text.of(""));
+            instance = new TScreen(4);
         }
         return instance;
     }

@@ -99,7 +99,7 @@ public class ClickGUI extends ScreenBase {
 
     public static ClickGUI instance() {
         if (instance == null) {
-            instance = new ClickGUI(8);
+            instance = new ClickGUI(4);
         }
         return instance;
     }

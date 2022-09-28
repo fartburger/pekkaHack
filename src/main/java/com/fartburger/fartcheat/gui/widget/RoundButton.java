@@ -19,7 +19,7 @@ import java.awt.*;
 
 public class RoundButton implements Element, Drawable, Selectable, HCursor {
 
-    final Runnable onPress;
+    static Runnable onPress = null;
     final Color textColor;
     String text;
     double x, y, width, height;
@@ -31,7 +31,7 @@ public class RoundButton implements Element, Drawable, Selectable, HCursor {
     boolean visible = true;
 
     public RoundButton(Color color,double x,double y,double w, double h,String t, Runnable a) {
-        this.onPress = a;
+        onPress=a;
         this.x = x;
         this.y = y;
         this.width = w;
@@ -101,6 +101,10 @@ public class RoundButton implements Element, Drawable, Selectable, HCursor {
         animProgress += d;
         animProgress = MathHelper.clamp(animProgress, 0, 1);
 
+    }
+
+    public static void onPress() {
+        onPress.run();
     }
 
     @Override

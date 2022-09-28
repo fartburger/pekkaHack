@@ -54,12 +54,12 @@ public class LoadingScreen extends ScreenBase implements FastTickable {
     double opacity = 1;
     double clock = 1;
     final FontAdapter fr = FontRenderers.getCustomSize(22);
-    protected LoadingScreen(Text title) {
-        super(8);
+    protected LoadingScreen(int samples) {
+        super(samples);
     }
     public static LoadingScreen instance() {
         if (INSTANCE == null) {
-            INSTANCE = new LoadingScreen(Text.of(""));
+            INSTANCE = new LoadingScreen(4);
         }
         return INSTANCE;
     }

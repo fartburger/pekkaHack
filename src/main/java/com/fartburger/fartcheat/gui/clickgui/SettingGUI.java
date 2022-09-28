@@ -81,7 +81,7 @@ public class SettingGUI extends ScreenBase {
     }
 
     public SettingGUI(int samples) {
-        super(8);
+        super(samples);
         Events.registerEventHandler(EventType.MOUSE_EVENT, event -> {
             if(((MouseEvent) event).getButton()==0&&((MouseEvent)event).getAction()==1&&FCRMain.client.currentScreen==SettingGUI.instance()) {
                 if(!select) {
@@ -100,7 +100,7 @@ public class SettingGUI extends ScreenBase {
 
     public static SettingGUI instance() {
         if(instance==null) {
-            instance = new SettingGUI(8);
+            instance = new SettingGUI(4);
         }
         return instance;
     }

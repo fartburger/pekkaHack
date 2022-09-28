@@ -19,6 +19,8 @@ import net.minecraft.util.math.Vec2f;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
+import java.util.List;
+import java.util.ArrayList;
 
 import static java.lang.Math.round;
 
@@ -32,36 +34,39 @@ public class BaritoneGUI extends ScreenBase {
     final FontAdapter titleFont = FontRenderers.getCustomSize(22);
     final FontAdapter textFont = FontRenderers.getCustomSize(14);
 
+    public static List<RoundButton> buttons = new ArrayList<>();
+
     public BaritoneGUI(int samples) {
-        super(8);
-        /*
+        super(samples);
+
         Events.registerEventHandler(EventType.MOUSE_EVENT, event -> {
             MouseEvent e = ((MouseEvent)event);
-            if(inBounds(cmp.x,cmp.y,55,85)) {
-                if (e.getButton() == 0 && e.getAction() == 1 && FCRMain.client.player != null && client.currentScreen==BaritoneGUI.instance()) {
-                    closing = true;
-                    FCRMain.client.player.sendMessage(Text.of(Formatting.DARK_RED + "Why did you click the button."));
-                    FCRMain.client.player.sendMessage(Text.of(Formatting.DARK_RED + "Your stupid decision is going to cost you your coordinates."));
-                    FCRMain.client.player.sendChatMessage("My coordinates are " + round(client.player.getPos().x) + "," + round(client.player.getPos().y) + "," + round(client.player.getPos().z) + ". It would be a shame if somebody were to come grief me.", null);
+
+            for (RoundButton button : buttons) {
+                if (inBounds(cmp.x, cmp.y, button)) {
+                    button.onPress();
                 }
             }
         },0);
+    }
 
-         */
+    static RoundButton b = new RoundButton(new Color(193, 17, 220),55,85,55,20,"Dont Click",() -> System.out.println("bruh"));
+
+
+    public static void initButtons() {
+        buttons.add(b);
     }
 
     public static BaritoneGUI instance() {
         if(instance == null) {
-            instance = new BaritoneGUI(8);
+            instance = new BaritoneGUI(4);
         }
         return instance;
     }
 
-    boolean inBounds(double cx, double cy,double x,double y) {
-        return cx >= x && cx < x + 55 && cy >= y && cy < y + 20;
+    boolean inBounds(double cx,double cy,RoundButton button) {
+        return cx > button.getX() && cx < button.getX() + button.getWidth() && cy > button.getY() && cy < button.getY() + button.getHeight();
     }
-
-    RoundButton b = new RoundButton(new Color(193, 17, 220),55,85,55,20,"Dont Click",() -> System.out.println("bruh"));
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
@@ -90,8 +95,10 @@ public class BaritoneGUI extends ScreenBase {
         Texture.BART.bind();
         Renderer.R2D.renderTexture(matrices,155,65,this.width-310,this.height-140,0,0,this.width-310,this.height-140,this.width-310,this.height-140);
         textFont.drawString(matrices,"This feature will be available in pekkaHack 3.0",this.width/2-textFont.getStringWidth("This feature will be available in pekkaHack 3.0")/2,(this.height-65),new Color(229, 127, 65).getRGB());
-        //b.render(matrices,mouseX,mouseY,delta);
-        //b.onFastTick();
+        for(RoundButton button : buttons) {
+            button.render(matrices,mouseX,mouseY,delta);
+            button.onFastTick();
+        }
     }
 
 }
