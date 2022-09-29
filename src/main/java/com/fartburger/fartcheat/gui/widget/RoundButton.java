@@ -131,11 +131,11 @@ public class RoundButton implements Element, Drawable, Selectable, HCursor {
                     20,
                     animProgress * 3);
         }
-        FontRenderers.getRenderer()
+        FontRenderers.getCustomSize(13)
                 .drawString(matrices,
                         text,
-                        -(FontRenderers.getRenderer().getStringWidth(text)) / 2f,
-                        -FontRenderers.getRenderer().getMarginHeight() / 2f,
+                        -(FontRenderers.getCustomSize(13).getStringWidth(text)) / 2f,
+                        -FontRenderers.getCustomSize(13).getMarginHeight() / 2f,
                         isEnabled() ? textColor.getRGB() : 0xAAAAAA,
                         false);
         matrices.pop();

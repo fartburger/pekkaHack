@@ -67,7 +67,7 @@ public class FCRMain implements ModInitializer {
 
 	void initFonts() {
 		try {
-			int fsize = 18 * 2;
+			int fsize = 14*2;
 			FontRenderers.setRenderer(new QuickFontAdapter(new FontRenderer(Font.createFont(Font.TRUETYPE_FONT,
 					Objects.requireNonNull(FCRMain.class.getClassLoader().getResourceAsStream("Font.ttf"))).deriveFont(Font.PLAIN, fsize), fsize)));
 		} catch (FontFormatException | IOException e) {

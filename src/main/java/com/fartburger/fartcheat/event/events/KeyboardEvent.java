@@ -4,10 +4,12 @@ public class KeyboardEvent extends NonCancellableEvent {
 
     final int kc;
     final int t;
+    final int mods;
 
-    public KeyboardEvent(int keycode, int type) {
+    public KeyboardEvent(int keycode, int type,int mods) {
         this.kc = keycode;
         this.t = type;
+        this.mods = mods;
     }
 
     public int getKeycode() {
@@ -20,4 +22,6 @@ public class KeyboardEvent extends NonCancellableEvent {
     public int getType() {
         return t;
     }
+
+    public int getMods() { return mods; }
 }

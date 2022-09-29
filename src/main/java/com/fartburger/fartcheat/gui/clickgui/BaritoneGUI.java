@@ -1,11 +1,14 @@
 package com.fartburger.fartcheat.gui.clickgui;
 
+import baritone.api.BaritoneAPI;
 import com.fartburger.fartcheat.FCRMain;
 import com.fartburger.fartcheat.event.EventType;
 import com.fartburger.fartcheat.event.Events;
+import com.fartburger.fartcheat.event.events.KeyboardEvent;
 import com.fartburger.fartcheat.event.events.MouseEvent;
 import com.fartburger.fartcheat.gui.base.ScreenBase;
 import com.fartburger.fartcheat.gui.widget.RoundButton;
+import com.fartburger.fartcheat.gui.widget.TextField;
 import com.fartburger.fartcheat.util.Utils;
 import com.fartburger.fartcheat.util.font.FontRenderers;
 import com.fartburger.fartcheat.util.font.adapters.FontAdapter;
@@ -21,11 +24,15 @@ import org.lwjgl.glfw.GLFW;
 import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static java.lang.Math.round;
 
 public class BaritoneGUI extends ScreenBase {
     public static BaritoneGUI instance;
+
+    static boolean CommandEntry = false;
+    boolean focused = true;
 
     boolean closing=false;
 
@@ -48,9 +55,11 @@ public class BaritoneGUI extends ScreenBase {
                 }
             }
         },0);
+
     }
 
-    static RoundButton b = new RoundButton(new Color(193, 17, 220),55,85,55,20,"Dont Click",() -> System.out.println("bruh"));
+    static RoundButton b = new RoundButton(new Color(193, 17, 220),55,85,55,20,"Enter Command",() -> CommandEntry = true);
+    static TextField tf = new TextField(55,115,75,15,"");
 
 
     public static void initButtons() {
@@ -74,9 +83,32 @@ public class BaritoneGUI extends ScreenBase {
             case GLFW.GLFW_KEY_ESCAPE -> {
                 closing=true;
             }
+            case GLFW.GLFW_KEY_ENTER -> {
+                if(CommandEntry && tf.getText()!=null) {
+                    BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute(tf.getText());
+                    CommandEntry = false;
+                    closing = true;
+                    tf.set("");
+                }
+            }
+            case GLFW.GLFW_KEY_BACKSPACE -> {
+                if (!Objects.equals(tf.getText(), "")) {
+                    tf.set(tf.getText().substring(0, tf.getText().length() - 1));
+                }
+            }
         }
 
         return false;
+    }
+
+    @Override
+    protected void init() {
+        initInternal();
+    }
+
+    @Override
+    protected void initInternal() {
+        this.addChild(tf);
     }
 
     @Override
@@ -98,6 +130,10 @@ public class BaritoneGUI extends ScreenBase {
         for(RoundButton button : buttons) {
             button.render(matrices,mouseX,mouseY,delta);
             button.onFastTick();
+        }
+        if(CommandEntry) {
+            tf.render(matrices, mouseX, mouseY);
+            tf.tickAnimations();
         }
     }
 

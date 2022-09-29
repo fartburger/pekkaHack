@@ -25,11 +25,13 @@ public class ConfigManager {
 
     static final List<Module> toBeEnabled = new ArrayList<>();
     static final File CONFIG_FILE;
+    static final File MACRO_FILE;
     public static boolean loaded = false;
     public static boolean enabled = false;
 
     static {
         CONFIG_FILE = new File(FCRMain.BASE, "pekka.config");
+        MACRO_FILE = new File(FCRMain.BASE,"pekka.macros");
         // left off here, error with config file being 'not a json object'
     }
 

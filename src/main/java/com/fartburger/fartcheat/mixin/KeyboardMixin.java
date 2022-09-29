@@ -20,7 +20,7 @@ public class KeyboardMixin {
     void keyPress(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
         if(window == FCRMain.client.getWindow().getHandle() && FCRMain.client.currentScreen==null) {
             KeybindManager.updateSingle(key, action);
-            Events.fireEvent(EventType.KEYBOARD, new KeyboardEvent(key, action));
+            Events.fireEvent(EventType.KEYBOARD, new KeyboardEvent(key, action, modifiers));
         }
     }
 
