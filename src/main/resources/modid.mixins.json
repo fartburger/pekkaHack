@@ -29,6 +29,7 @@
     "ClientWorldMixin2",
     "GameRendererMixin",
     "IClientPlayerInteractionManagerMixin",
+    "IClientPlayerInteractionManagerMixin2",
     "IMatrixStackMixin",
     "InGameHudMixin",
     "IPlayerListEntryMixin",

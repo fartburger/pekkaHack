@@ -1,5 +1,7 @@
 package com.fartburger.fartcheat.mixin;
 
+import baritone.api.BaritoneAPI;
+import baritone.api.IBaritone;
 import com.fartburger.fartcheat.FCRMain;
 import com.fartburger.fartcheat.config.ConfigManager;
 import com.fartburger.fartcheat.modules.Module;
@@ -18,8 +20,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Objects;
 
+import static com.fartburger.fartcheat.gui.clickgui.BaritoneGUI.macrosToRun;
+import static com.fartburger.fartcheat.gui.clickgui.BaritoneGUI.runMacro;
+
 @Mixin(ClientPlayerEntity.class)
 public class ClientPlayerEntityMixin {
+
+    private static int macIndex=0;
     @Inject(at=@At("HEAD"),method="tick")
     void pekka_tick(CallbackInfo ci) {
         Utils.TickManager.tick();
@@ -31,6 +38,22 @@ public class ClientPlayerEntityMixin {
                 module.tick();
             }
         }
+        if(FCRMain.client.player!=null&&FCRMain.client.world!=null) {
+            if (runMacro) {
+                if (macIndex < macrosToRun.size()) {
+                    IBaritone bar = BaritoneAPI.getProvider().getPrimaryBaritone();
+                    if (!bar.getPathingBehavior().isPathing() && !bar.getGetToBlockProcess().isActive() && !bar.getBuilderProcess().isActive() && !bar.getExploreProcess().isActive() && !bar.getMineProcess().isActive() && !bar.getMineProcess().isActive()) {
+                        bar.getCommandManager().execute(macrosToRun.get(macIndex));
+                        Utils.chatLog("Executing baritone command: " + macrosToRun.get(macIndex));
+                        macIndex++;
+                    }
+                } else {
+                    runMacro = false;
+                    macIndex = 0;
+                }
+            }
+        }
+
     }
     @Redirect(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"))
     boolean pekka_noSlow(ClientPlayerEntity instance) {

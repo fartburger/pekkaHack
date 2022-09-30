@@ -1,6 +1,8 @@
 package com.fartburger.fartcheat.gui.clickgui;
 
 import baritone.api.BaritoneAPI;
+import baritone.api.IBaritone;
+import baritone.api.IBaritoneProvider;
 import com.fartburger.fartcheat.FCRMain;
 import com.fartburger.fartcheat.event.EventType;
 import com.fartburger.fartcheat.event.Events;
@@ -34,7 +36,14 @@ public class BaritoneGUI extends ScreenBase {
     static boolean CommandEntry = false;
     boolean focused = true;
 
+
+
     boolean closing=false;
+
+    public static boolean runMacro = false;
+    public static int macIndex=0;
+
+    public static List<String> macrosToRun = new ArrayList<>();
 
     Vec2f cmp = new Vec2f(0,0);
 
@@ -58,12 +67,26 @@ public class BaritoneGUI extends ScreenBase {
 
     }
 
-    static RoundButton b = new RoundButton(new Color(193, 17, 220),55,85,55,20,"Enter Command",() -> CommandEntry = true);
+    static RoundButton b = new RoundButton(new Color(193, 17, 220),55,85,55,20,"Enter Macro",() -> CommandEntry = true);
     static TextField tf = new TextField(55,115,75,15,"");
 
 
     public static void initButtons() {
         buttons.add(b);
+    }
+
+    public static void runMacro(List<String> commands) {
+        int i = 0;
+        IBaritone bar = BaritoneAPI.getProvider().getPrimaryBaritone();
+        //bar.getPathingBehavior().cancelEverything();
+        Utils.chatLog("Got command list: "+commands.toString());
+        while(i<commands.size()) {
+            if(!bar.getPathingBehavior().isPathing()&&!bar.getGetToBlockProcess().isActive()&&!bar.getBuilderProcess().isActive()&&!bar.getExploreProcess().isActive()&&!bar.getMineProcess().isActive()&&!bar.getMineProcess().isActive()) {
+                bar.getCommandManager().execute(commands.get(i));
+                Utils.chatLog("Executing baritone command: "+ commands.get(i));
+                i++;
+            }
+        }
     }
 
     public static BaritoneGUI instance() {
@@ -85,9 +108,17 @@ public class BaritoneGUI extends ScreenBase {
             }
             case GLFW.GLFW_KEY_ENTER -> {
                 if(CommandEntry && tf.getText()!=null) {
-                    BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute(tf.getText());
+                    List<String> cmds = List.of(tf.getText().split(";"));
+                    //BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute(tf.getText());
                     CommandEntry = false;
                     closing = true;
+                    //runMacro(cmds);
+                    if(!com.fartburger.fartcheat.modules.hacks.BaritoneGUI.runMacro) {
+                        runMacro = true;
+                        macrosToRun = cmds;
+                        com.fartburger.fartcheat.modules.hacks.BaritoneGUI.macIndex = 0;
+                        Utils.chatLog("Got command list: "+macrosToRun.toString());
+                    }
                     tf.set("");
                 }
             }
@@ -135,6 +166,7 @@ public class BaritoneGUI extends ScreenBase {
             tf.render(matrices, mouseX, mouseY);
             tf.tickAnimations();
         }
+
     }
 
 }

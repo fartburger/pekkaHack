@@ -94,6 +94,9 @@ public abstract class ChatMixin extends Screen {
                                         EnumSetting t2 = (EnumSetting) Objects.requireNonNull(ModuleRegistry.getByName(smod)).config.get(s.split(" ")[3]);
                                         t2.setValue(t2.parse(s.split(" ")[4]));
                                         break;
+                                    case "string":
+                                        StringSetting t3 = (StringSetting)Objects.requireNonNull(ModuleRegistry.getByName(smod).config.get(s.split(" ")[3]));
+                                        t3.setValue(t3.parse(s.split(" ")[4]));
                                 }
                             } catch(Exception shutthefuckup) {
                                 FCRMain.client.player.sendMessage(Text.of(Formatting.RED+"ran into nullpointerexception error because your dumbass was too lazy to type the setting name case-sensitive. fuck you"));

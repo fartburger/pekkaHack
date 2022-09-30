@@ -117,6 +117,7 @@ public class ModuleRegistry {
         registerModule(AntiCactus.class);
         registerModule(TrueSight.class);
         registerModule(ColorSign.class);
+        registerModule(InfiniteMiner.class);
 
 
         rebuildSharedModuleList();

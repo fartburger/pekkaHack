@@ -5,19 +5,29 @@ import com.fartburger.fartcheat.mixin.ClientWorldMixin;
 import com.fartburger.fartcheat.mixinUtil.IMinecraftClient;
 import com.fartburger.fartcheat.mixin.MinecraftClientMixin;
 import com.fartburger.fartcheat.util.render.Texture;
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.client.network.PendingUpdateManager;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.EnchantedBookItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.network.Packet;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.StringUtils;
@@ -66,6 +76,30 @@ public class Utils {
                 throw new IllegalArgumentException(message);
             }
         }
+    }
+
+    public static void getEnchantments(ItemStack itemStack, Object2IntMap<Enchantment> enchantments) {
+        enchantments.clear();
+
+        if (!itemStack.isEmpty()) {
+            NbtList listTag = itemStack.getItem() == Items.ENCHANTED_BOOK ? EnchantedBookItem.getEnchantmentNbt(itemStack) : itemStack.getEnchantments();
+
+            for (int i = 0; i < listTag.size(); ++i) {
+                NbtCompound tag = listTag.getCompound(i);
+
+                Registry.ENCHANTMENT.getOrEmpty(Identifier.tryParse(tag.getString("id"))).ifPresent((enchantment) -> enchantments.put(enchantment, tag.getInt("lvl")));
+            }
+        }
+    }
+
+    public static boolean hasEnchantments(ItemStack itemStack, Enchantment... enchantments) {
+        if (itemStack.isEmpty()) return false;
+
+        Object2IntMap<Enchantment> itemEnchantments = new Object2IntArrayMap<>();
+        getEnchantments(itemStack, itemEnchantments);
+        for (Enchantment enchantment : enchantments) if (!itemEnchantments.containsKey(enchantment)) return false;
+
+        return true;
     }
 
     public static Vec3d getInterpolatedEntityPosition(Entity entity) {
