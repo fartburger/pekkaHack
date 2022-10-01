@@ -118,6 +118,9 @@ public class ModuleRegistry {
         registerModule(TrueSight.class);
         registerModule(ColorSign.class);
         registerModule(InfiniteMiner.class);
+        registerModule(PuddleStep.class);
+        registerModule(SnakeStep.class);
+        registerModule(ChatEncryption.class);
 
 
         rebuildSharedModuleList();

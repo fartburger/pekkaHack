@@ -169,7 +169,12 @@ public abstract class ChatMixin extends Screen {
                 FCRMain.client.player.sendMessage(Text.of("Module "+ModuleRegistry.getByName(s.split(" ")[1]).getName()+" is bound to "+((m.keybind.getValue()==-1) ? "nothing" : FCRMain.kcinverse.get(m.keybind.getValue().intValue()))));
             }
             return true;
-        } else {
+        } else if(ModuleRegistry.getByClass(ChatEncryption.class).isEnabled()) {
+            if(ChatEncryption.encode(s)!=null) {
+                this.sendMessage(ChatEncryption.encode("[PEKKA]"+s),true);
+            }
+        }
+        else {
             this.sendMessage(s,true);
         }
         return true;

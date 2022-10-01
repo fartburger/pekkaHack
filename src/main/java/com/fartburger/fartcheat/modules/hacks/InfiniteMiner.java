@@ -26,6 +26,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import java.util.function.Predicate;
 
 public class InfiniteMiner extends Module {
 
-    StringSetting blockName = this.config.create(new StringSetting.Builder("diamond_ore").name("Block")
+    StringSetting blockName = this.config.create(new StringSetting.Builder("diamond_ore").name("Blocks")
             .description("Blocks to mine, seperated by ';' (example: diamond_ore;diamond_block;ancient_debris")
             .get());
 
@@ -97,6 +98,7 @@ public class InfiniteMiner extends Module {
 
     @Override
     public void enable() {
+        Utils.chatLog("Reminder: do NOT pause baritone while using this. Just use the stop command. Your fps will drop to 0.");
         homepos.set(FCRMain.client.player.getBlockPos());
         wasminescandropitems = baritoneSettings.mineScanDroppedItems.value;
         baritoneSettings.mineScanDroppedItems.value = true;
@@ -131,12 +133,13 @@ public class InfiniteMiner extends Module {
 
     @Override
     public void tick() {
-
-        mrecentDmg = Objects.requireNonNull(FCRMain.client.player.getDamageTracker().getMostRecentDamage()).getDamageSource().name;
+        if(FCRMain.client.player.getDamageTracker().getMostRecentDamage()!=null) {
+            mrecentDmg = Objects.requireNonNull(FCRMain.client.player.getDamageTracker().getMostRecentDamage()).getDamageSource().name;
+        }
         if(isFull()) {
             if(returnHome.getValue()) {
                 if(isBaritoneNotWalking()) {
-                    Utils.chatLog("[BARITONE] Returning Home");
+                    //Utils.chatLog("[BARITONE] Returning Home");
                     baritone.getCustomGoalProcess().setGoalAndPath(new GoalBlock(homepos));
                 } else if(FCRMain.client.player.getBlockPos().equals(homepos)&&logout.getValue()) {
                     logOut();
@@ -155,20 +158,20 @@ public class InfiniteMiner extends Module {
             return;
         }
         if (!findPickaxe()) {
-            Utils.chatError("Could not find a usable mending pickaxe.");
+            //Utils.chatError("Could not find a usable mending pickaxe.");
             toggle();
             return;
         }
 
         if (!checkThresholds()) {
-            Utils.chatError("Start mining value can't be lower than start repairing value.");
+            //Utils.chatError("Start mining value can't be lower than start repairing value.");
             toggle();
             return;
         }
 
         if (repairing) {
             if (!needsRepair()) {
-                Utils.chatError("Finished repairing, going back to mining.");
+                //Utils.chatError("Finished repairing, going back to mining.");
                 repairing = false;
                 mineTargetBlocks();
                 return;
@@ -178,7 +181,7 @@ public class InfiniteMiner extends Module {
         }
         else {
             if (needsRepair()) {
-                Utils.chatLog("Pickaxe needs repair, beginning repair process");
+                //Utils.chatLog("Pickaxe needs repair, beginning repair process");
                 repairing = true;
                 mineRepairBlocks();
                 return;
@@ -228,12 +231,12 @@ public class InfiniteMiner extends Module {
 
     private void logOut() {
         toggle();
-        FCRMain.client.player.networkHandler.sendPacket(new DisconnectS2CPacket(Text.literal("Inventory was full. Disconnected.")));
+        FCRMain.client.player.networkHandler.getConnection().disconnect(Text.of(Formatting.BLUE+"Inventory was full. Disconnected."));
     }
 
     private void panic() {
         toggle();
-        FCRMain.client.player.networkHandler.sendPacket(new DisconnectS2CPacket(Text.literal("Panic mode was activated. Your health dropped below "+panicHealth.getValue()+". Last cause of damage was "+mrecentDmg)));
+        FCRMain.client.player.networkHandler.getConnection().disconnect(Text.of(Formatting.RED+"Panic mode was activated. Your health dropped below "+panicHealth.getValue().toString()));
     }
 
     private boolean isBaritoneNotMining() {
