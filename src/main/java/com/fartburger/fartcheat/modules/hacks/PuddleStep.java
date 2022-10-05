@@ -81,7 +81,7 @@ public class PuddleStep extends Module {
         currentPos = new BlockPos(Math.round(FCRMain.client.player.getBlockPos().getX()),Math.round(FCRMain.client.player.getBlockPos().getY()),Math.round(FCRMain.client.player.getBlockPos().getZ()));
 
         if(!bSame(currentPos,lastPos)&&!(FCRMain.client.world.getBlockState(currentPos.subtract(new Vec3i(0,1,0))).getBlock() instanceof AirBlock)) {
-            System.out.println(currentPos.toString()+" ||| "+lastPos.toString());
+            //System.out.println(currentPos.toString()+" ||| "+lastPos.toString());
             doPuddle(currentPos);
         }
 

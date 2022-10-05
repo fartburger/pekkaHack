@@ -141,24 +141,27 @@ public abstract class ChatMixin extends Screen {
                         break;
                 }
             }
+            if(s.split(" ")[0].equalsIgnoreCase(".modulecount")) {
+                FCRMain.client.player.sendMessage(Text.of(Formatting.YELLOW+"PekkaHack currently has "+ModuleRegistry.getModules().size()+" modules."));
+            }
             if(s.split(" ")[0].equalsIgnoreCase(".ballistic")) {
                 if(!ModuleRegistry.getByClass(KillAura.class).isEnabled()) {
-                    ModuleRegistry.getByClass(KillAura.class).enable();
+                    ModuleRegistry.getByClass(KillAura.class).setEnabled(true);
                 }
                 if(!ModuleRegistry.getByClass(Speed.class).isEnabled()) {
-                    ModuleRegistry.getByClass(Speed.class).enable();
+                    ModuleRegistry.getByClass(Speed.class).setEnabled(true);
                 }
                 if(!ModuleRegistry.getByClass(Step.class).isEnabled()) {
-                    ModuleRegistry.getByClass(Step.class).enable();
+                    ModuleRegistry.getByClass(Step.class).setEnabled(true);
                 }
                 if(!ModuleRegistry.getByClass(Reach.class).isEnabled()) {
-                    ModuleRegistry.getByClass(Reach.class).enable();
+                    ModuleRegistry.getByClass(Reach.class).setEnabled(true);
                 }
                 if(!ModuleRegistry.getByClass(SpinBot.class).isEnabled()) {
-                    ModuleRegistry.getByClass(SpinBot.class).enable();
+                    ModuleRegistry.getByClass(SpinBot.class).setEnabled(true);
                 }
                 if(!ModuleRegistry.getByClass(InstaBow.class).isEnabled()) {
-                    ModuleRegistry.getByClass(InstaBow.class).enable();
+                    ModuleRegistry.getByClass(InstaBow.class).setEnabled(true);
                 }
             }
             if(s.split(" ")[0].equalsIgnoreCase(".description")&&(ModuleRegistry.getByName(s.split(" ")[1])!=null)) {

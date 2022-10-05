@@ -1,29 +1,30 @@
 package com.fartburger.fartcheat.modules.hacks;
 
+import com.fartburger.fartcheat.FCRMain;
+import com.fartburger.fartcheat.mixinUtil.IHorseBaseEntity;
 import com.fartburger.fartcheat.modules.Module;
-import com.fartburger.fartcheat.modules.ModuleRegistry;
 import com.fartburger.fartcheat.modules.ModuleType;
-import com.fartburger.fartcheat.util.Utils;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.AbstractHorseEntity;
 
-public class SnakeStep extends Module {
+public class EntityControl extends Module {
 
-    public SnakeStep() {
-        super("SnakeStep","a cool stepping effect", ModuleType.RENDER);
+    public EntityControl() {
+        super("EntityControl","control entities without a saddle", ModuleType.MOVEMENT);
     }
 
 
     @Override
     public void tick() {
-
+        for (Entity entity : FCRMain.client.world.getEntities()) {
+            if (entity instanceof AbstractHorseEntity) ((IHorseBaseEntity) entity).setSaddled(true);
+        }
     }
 
     @Override
     public void enable() {
-        if(ModuleRegistry.getByClass(PuddleStep.class).isEnabled()) {
-            ModuleRegistry.getByClass(PuddleStep.class).setEnabled(false);
-            Utils.chatLog("Disabled PuddleStep for visual purposes.");
-        }
+
     }
 
     @Override

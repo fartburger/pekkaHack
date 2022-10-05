@@ -8,6 +8,7 @@
     "CactusBlockMixin",
     "ClientConnectionMixin",
     "FluidBlockMixin",
+    "HorseEntityMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
     "PlayerMoveC2SPacketAccessor",

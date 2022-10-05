@@ -119,8 +119,8 @@ public class ModuleRegistry {
         registerModule(ColorSign.class);
         registerModule(InfiniteMiner.class);
         registerModule(PuddleStep.class);
-        registerModule(SnakeStep.class);
         registerModule(ChatEncryption.class);
+        registerModule(EntityControl.class);
 
 
         rebuildSharedModuleList();

@@ -21,6 +21,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 
+
 public class ChatEncryption extends Module {
 
     public static boolean shouldEncrypt;
