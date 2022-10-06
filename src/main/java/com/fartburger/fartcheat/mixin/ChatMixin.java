@@ -18,6 +18,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
+import org.apache.commons.lang3.StringUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -41,10 +42,10 @@ public abstract class ChatMixin extends Screen {
     }
     @Redirect(at=@At(value="INVOKE",target="Lnet/minecraft/client/gui/screen/ChatScreen;sendMessage(Ljava/lang/String;Z)Z"),method="keyPressed")
     boolean chat_intercept(ChatScreen instance, String s, boolean addToHistory) {
-        if(s.startsWith(".")||s.startsWith("@")) {
+        if(s.startsWith(".")||s.startsWith("@")||s.startsWith("/")) {
             if(s.split(" ")[0].equalsIgnoreCase(".help")) {
                 FCRMain.client.player.sendMessage(Text.of(Formatting.GREEN+"Toggling modules - Open clickgui(right shift) and click on module to toggle.\n" +
-                        "Viewing settings -Open settinggui(zero) and click on module to view its settings (to change them, type .setting <module> set <setting (case sensitve)> <value>)"));
+                        "Viewing settings -Open settinggui(default keybind is zero) and click on a module ; to change them, type .setting <module> set <setting name (case sensitve)> <value>"));
                 return true;
             }
             if(s.split(" ")[0].substring(1).equalsIgnoreCase("toggle")) {
@@ -66,7 +67,6 @@ public abstract class ChatMixin extends Screen {
                     return true;
                 } else {
                     if(s.split(" ")[1].equalsIgnoreCase("gui")) {
-                        FCRMain.client.player.sendMessage(Text.of("test"));
                         FCRMain.client.setScreen(com.fartburger.fartcheat.gui.clickgui.SettingGUI.instance());
                         return true;
                     }
@@ -74,6 +74,36 @@ public abstract class ChatMixin extends Screen {
                     String smod = s.split(" ")[1];
                     if(ModuleRegistry.getByName(smod)!=null) {
                         if(s.split(" ")[2].equalsIgnoreCase("get")) {
+                            if(s.split(" ")[3]!=null) {
+                                for(SettingBase<?> setting : ModuleRegistry.getByName(smod).config.getSettings()) {
+                                   if(setting.getName().equalsIgnoreCase(s.split(" ")[3])) {
+                                       switch(setting.getType()) {
+                                           case "double" -> {
+                                               DoubleSetting t = (DoubleSetting) Objects.requireNonNull(ModuleRegistry.getByName(smod)).config.get(s.split(" ")[3]);
+                                               FCRMain.client.player.sendMessage(Text.of("Min value: "+Double.toString(t.getMin())+" Max value: "+Double.toString(t.getMax())+" Current value: "+Double.toString(t.getValue())));
+                                           }
+                                           case "boolean" -> {
+                                               BooleanSetting t1 = (BooleanSetting) Objects.requireNonNull(ModuleRegistry.getByName(smod)).config.get(s.split(" ")[3]);
+                                               FCRMain.client.player.sendMessage(Text.of("Current value: "+t1.getValue().toString()));
+                                           }
+                                           case "enum" -> {
+                                                EnumSetting t2 = (EnumSetting) Objects.requireNonNull(ModuleRegistry.getByName(smod)).config.get(s.split(" ")[3]);
+                                                List<String> modes = new ArrayList<>();
+                                                for(Enum e : t2.getValues()) {
+                                                    modes.add(e.toString());
+                                                }
+                                                FCRMain.client.player.sendMessage(Text.of("Current value: "+t2.getValue().toString()+" Options: "+ StringUtils.join(modes,",")));
+                                           }
+                                           case "String" -> {
+                                               StringSetting t3 = (StringSetting)Objects.requireNonNull(ModuleRegistry.getByName(smod).config.get(s.split(" ")[3]));
+                                               FCRMain.client.player.sendMessage(Text.of("Current value: "+t3.getValue()));
+                                           }
+                                       }
+                                       break;
+                                   }
+                                   return true;
+                                }
+                            }
                             FCRMain.client.player.sendMessage(Text.of("All settings for module "+ModuleRegistry.getByName(smod).getName()+":"));
                             for(SettingBase<?> setting : ModuleRegistry.getByName(smod).config.getSettings()) {
                                 FCRMain.client.player.sendMessage(Text.of(setting.name+" > "+setting.getValue().toString()));

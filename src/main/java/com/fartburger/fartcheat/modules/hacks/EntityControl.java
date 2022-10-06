@@ -4,6 +4,7 @@ import com.fartburger.fartcheat.FCRMain;
 import com.fartburger.fartcheat.mixinUtil.IHorseBaseEntity;
 import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleType;
+import com.fartburger.fartcheat.util.Utils;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
@@ -24,7 +25,8 @@ public class EntityControl extends Module {
 
     @Override
     public void enable() {
-
+        Utils.chatError("This module has been patched. Fuck mojang.");
+        this.setEnabled(false);
     }
 
     @Override

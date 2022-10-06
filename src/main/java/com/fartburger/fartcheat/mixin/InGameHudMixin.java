@@ -5,6 +5,7 @@ import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleRegistry;
 import com.fartburger.fartcheat.modules.hacks.ActiveMods;
 import com.fartburger.fartcheat.modules.hacks.Bart;
+import com.fartburger.fartcheat.modules.hacks.Hud;
 import com.fartburger.fartcheat.util.font.FontRenderers;
 import com.fartburger.fartcheat.util.font.adapters.FontAdapter;
 import com.fartburger.fartcheat.util.font.renderer.FontRenderer;
@@ -40,8 +41,10 @@ public class InGameHudMixin {
         time++;
         com.fartburger.fartcheat.util.render.textures.Texture.BACKGROUND.bind();
         Renderer.R2D.renderTexture(matrices,rad* MathHelper.cos(time)+scaledWidth-40,rad*MathHelper.sin(time)+scaledHeight-80,35,60,0,0,35,60,35,60);
-        FontRenderers.getRenderer().drawString(matrices,"fps> "+String.valueOf(fps),1,1,0xFFFFFF);
-        FontRenderers.getCustomSize(12).drawString(matrices,"Position: "+Math.round(client.player.getPos().x)+","+Math.round(client.player.getPos().y)+","+Math.round(client.player.getPos().z),1f,scaledHeight-FontRenderers.getCustomSize(12).getFontHeight(),0xDDDDDD);
+        if(ModuleRegistry.getByClass(Hud.class).isEnabled()) {
+            FontRenderers.getRenderer().drawString(matrices, "fps> " + String.valueOf(fps), 1, 1, 0xFFFFFF);
+            FontRenderers.getCustomSize(12).drawString(matrices, "Position: " + Math.round(client.player.getPos().x) + "," + Math.round(client.player.getPos().y) + "," + Math.round(client.player.getPos().z), 1f, scaledHeight - FontRenderers.getCustomSize(12).getFontHeight(), 0xDDDDDD);
+        }
         if(ModuleRegistry.getByClass(Bart.class).isEnabled()) {
             com.fartburger.fartcheat.util.render.textures.Texture.BART.bind();
             Renderer.R2D.renderTexture(matrices,scaledWidth-105,35,60,60,0,0,60,60,60,60);

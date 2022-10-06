@@ -121,6 +121,7 @@ public class ModuleRegistry {
         registerModule(PuddleStep.class);
         registerModule(ChatEncryption.class);
         registerModule(EntityControl.class);
+        registerModule(Hud.class);
 
 
         rebuildSharedModuleList();
