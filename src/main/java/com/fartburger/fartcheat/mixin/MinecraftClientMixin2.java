@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin2 {
     @Inject(method = "stop", at = @At("HEAD"))
-    void coffee_dispatchExit(CallbackInfo ci) {
+    void pekka_dispatchExit(CallbackInfo ci) {
         ConfigManager.saveState();
         Events.fireEvent(EventType.GAME_EXIT, new NonCancellableEvent());
     }

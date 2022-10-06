@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BlockRenderManager.class)
 public class BlockRenderManagerMixin {
     @Inject(method = "renderBlock", at = @At("HEAD"), cancellable = true)
-    void coffee_dispatchRenderEvent(BlockState state, BlockPos pos, BlockRenderView world, MatrixStack matrices, VertexConsumer vertexConsumer, boolean cull, Random random, CallbackInfo ci) {
+    void pekka_dispatchRenderEvent(BlockState state, BlockPos pos, BlockRenderView world, MatrixStack matrices, VertexConsumer vertexConsumer, boolean cull, Random random, CallbackInfo ci) {
         BlockRenderEvent be = new BlockRenderEvent(matrices, pos, state);
         if (Events.fireEvent(EventType.BLOCK_RENDER, be)) {
             ci.cancel();

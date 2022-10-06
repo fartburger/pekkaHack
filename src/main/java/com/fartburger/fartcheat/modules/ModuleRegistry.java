@@ -58,7 +58,6 @@ public class ModuleRegistry {
         if (instance == null) {
             throw new IllegalArgumentException("Failed to make instance of " + moduleClass.getName());
         }
-        //CoffeeMain.log(Level.INFO, "Initialized " + instance.getName() + " via " + moduleClass.getName());
         vanillaModules.add(instance);
     }
 

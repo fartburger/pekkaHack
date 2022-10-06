@@ -14,7 +14,7 @@ import java.util.Objects;
 public class AbstractBlockStateMixin {
 
     @Inject(method = "getLuminance", at = @At("HEAD"), cancellable = true)
-    public void coffee_luminateBlock(CallbackInfoReturnable<Integer> cir) {
+    public void pekka_luminateBlock(CallbackInfoReturnable<Integer> cir) {
         if (Objects.requireNonNull(ModuleRegistry.getByClass(Xray.class)).isEnabled()) {
             cir.setReturnValue(15);
         }

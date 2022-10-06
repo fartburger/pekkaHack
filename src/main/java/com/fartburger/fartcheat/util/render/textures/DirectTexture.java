@@ -28,7 +28,7 @@ public class DirectTexture implements Texture {
     @Override
     public void load() throws Throwable {
         URI uri = URI.create(url);
-        HttpRequest get = HttpRequest.newBuilder().uri(uri).header("User-Agent", "coffee/1.0").build();
+        HttpRequest get = HttpRequest.newBuilder().uri(uri).header("User-Agent", "pekka/1.0").build();
         HttpResponse<InputStream> send = client.send(get, HttpResponse.BodyHandlers.ofInputStream());
         @Cleanup InputStream body = send.body();
         BufferedImage read = ImageIO.read(body);

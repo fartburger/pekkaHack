@@ -47,13 +47,13 @@ public class GameRendererMixin {
     }
 
     @Inject(method = "getFov", at = @At("RETURN"), cancellable = true)
-    public void coffee_overwriteFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Double> cir) {
+    public void pekka_overwriteFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Double> cir) {
         double zv = ModuleRegistry.getByClass(Zoom.class).getZoomValue(cir.getReturnValue());
         cir.setReturnValue(zv);
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;pop()V", shift = At.Shift.BEFORE), method = "render")
-    void coffee_postHudRenderNoCheck(float tickDelta, long startTime, boolean tick, CallbackInfo ci) {
+    void pekka_postHudRenderNoCheck(float tickDelta, long startTime, boolean tick, CallbackInfo ci) {
         MSAAFrameBuffer.use(MSAAFrameBuffer.MAX_SAMPLES, () -> {
             Utils.TickManager.render();
             for (Module module : ModuleRegistry.getModules()) {
