@@ -21,7 +21,9 @@ public enum EventType {
     GAME_EXIT(NonCancellableEvent.class, true),
     SHOULD_RENDER_CHUNK(ChunkRenderQueryEvent.class, false),
     WORLD_RENDER(WorldRenderEvent.class, false),
-    ENTITY_ADDED(EntityAddedEvent.class,false);
+    ENTITY_ADDED(EntityAddedEvent.class,false),
+
+    BOAT_MOVE(BoatMoveEvent.class,true);
 
 
     @Getter

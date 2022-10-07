@@ -121,6 +121,8 @@ public class ModuleRegistry {
         registerModule(ChatEncryption.class);
         registerModule(EntityControl.class);
         registerModule(Hud.class);
+        registerModule(BoatFly.class);
+        registerModule(BedrockBridging.class);
 
 
         rebuildSharedModuleList();
