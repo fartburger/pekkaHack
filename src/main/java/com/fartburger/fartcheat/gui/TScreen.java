@@ -46,7 +46,7 @@ public class TScreen extends ScreenBase {
     final ParticleRenderer prend = isBart ? new ParticleRenderer(600,new Color(210, 206, 20)) : new ParticleRenderer(600,new Color(43, 63, 248)) ;
     keybind kb;
     public static boolean outdated = false;
-    final String motd = "Droppin these unfinished updates got me feeling like EA";
+    final String motd = "50+ modules";
     int chars;
 
 
