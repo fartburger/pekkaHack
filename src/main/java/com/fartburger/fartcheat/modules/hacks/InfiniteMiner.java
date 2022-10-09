@@ -20,6 +20,8 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -157,6 +159,13 @@ public class InfiniteMiner extends Module {
 
             return;
         }
+
+        if(isCreeperBouttaBlow()) {
+            creeperPanic();
+
+            return;
+        }
+
         if (!findPickaxe()) {
             //Utils.chatError("Could not find a usable mending pickaxe.");
             toggle();
@@ -192,6 +201,17 @@ public class InfiniteMiner extends Module {
     }
 
 
+
+    private boolean isCreeperBouttaBlow() {
+        if(client.world==null) return false;
+        for(Entity ent : FCRMain.client.world.getEntities()) {
+            if(!(ent instanceof CreeperEntity)) continue;
+            if(ent.getBlockPos().getSquaredDistance(FCRMain.client.player.getPos().x,FCRMain.client.player.getPos().y,FCRMain.client.player.getPos().z)<=6) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private boolean needsRepair() {
         ItemStack itemStack = FCRMain.client.player.getMainHandStack();
@@ -237,6 +257,11 @@ public class InfiniteMiner extends Module {
     private void panic() {
         toggle();
         FCRMain.client.player.networkHandler.getConnection().disconnect(Text.of(Formatting.RED+"Panic mode was activated. Your health dropped below "+panicHealth.getValue().toString()));
+    }
+
+    private void creeperPanic() {
+        toggle();
+        FCRMain.client.player.networkHandler.getConnection().disconnect(Text.of(Formatting.RED+"Panic mode was activated. You are in imminent danger of being blown up by a creeper."));
     }
 
     private boolean isBaritoneNotMining() {

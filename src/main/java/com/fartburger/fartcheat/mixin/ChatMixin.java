@@ -42,7 +42,7 @@ public abstract class ChatMixin extends Screen {
     }
     @Redirect(at=@At(value="INVOKE",target="Lnet/minecraft/client/gui/screen/ChatScreen;sendMessage(Ljava/lang/String;Z)Z"),method="keyPressed")
     boolean chat_intercept(ChatScreen instance, String s, boolean addToHistory) {
-        if(s.startsWith(".")||s.startsWith("@")||s.startsWith("/")) {
+        if(s.startsWith(".")||s.startsWith("@")) {
             if(s.split(" ")[0].equalsIgnoreCase(".help")) {
                 FCRMain.client.player.sendMessage(Text.of(Formatting.GREEN+"Toggling modules - Open clickgui(right shift) and click on module to toggle.\n" +
                         "Viewing settings -Open settinggui(default keybind is zero) and click on a module ; to change them, type .setting <module> set <setting name (case sensitve)> <value>"));
@@ -202,7 +202,10 @@ public abstract class ChatMixin extends Screen {
                 FCRMain.client.player.sendMessage(Text.of("Module "+ModuleRegistry.getByName(s.split(" ")[1]).getName()+" is bound to "+((m.keybind.getValue()==-1) ? "nothing" : FCRMain.kcinverse.get(m.keybind.getValue().intValue()))));
             }
             return true;
-        } else if(ModuleRegistry.getByClass(ChatEncryption.class).isEnabled()) {
+        } else if(s.startsWith("/")) {
+            this.sendMessage(s,true);
+        }
+        else if(ModuleRegistry.getByClass(ChatEncryption.class).isEnabled()) {
             if(ChatEncryption.encode(s)!=null) {
                 this.sendMessage(ChatEncryption.encode("[PEKKA]"+s),true);
             }

@@ -109,7 +109,6 @@ public class ModuleRegistry {
         registerModule(Tower.class);
         registerModule(Phase.class);
         registerModule(AirJump.class);
-        registerModule(AntiRotation.class);
         registerModule(RangeNotifier.class);
         registerModule(Bart.class);
         registerModule(SnowWalk.class);
