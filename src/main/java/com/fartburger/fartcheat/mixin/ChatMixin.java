@@ -13,8 +13,12 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
@@ -74,7 +78,7 @@ public abstract class ChatMixin extends Screen {
                     String smod = s.split(" ")[1];
                     if(ModuleRegistry.getByName(smod)!=null) {
                         if(s.split(" ")[2].equalsIgnoreCase("get")) {
-                            if(s.split(" ")[3]!=null) {
+                            if(s.length()==4) {
                                 for(SettingBase<?> setting : ModuleRegistry.getByName(smod).config.getSettings()) {
                                    if(setting.getName().equalsIgnoreCase(s.split(" ")[3])) {
                                        switch(setting.getType()) {

@@ -122,6 +122,8 @@ public class ModuleRegistry {
         registerModule(Hud.class);
         registerModule(BoatFly.class);
         registerModule(BedrockBridging.class);
+        registerModule(PacketCanceller.class);
+        registerModule(BlockHighlight.class);
 
 
         rebuildSharedModuleList();
