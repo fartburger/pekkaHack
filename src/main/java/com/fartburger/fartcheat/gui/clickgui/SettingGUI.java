@@ -1,6 +1,5 @@
 package com.fartburger.fartcheat.gui.clickgui;
 
-import baritone.api.Settings;
 import com.fartburger.fartcheat.FCRMain;
 import com.fartburger.fartcheat.config.Setting;
 import com.fartburger.fartcheat.config.SettingBase;

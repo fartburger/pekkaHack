@@ -25,12 +25,12 @@ public class FontRenderers {
         FontRenderers.normal = normal;
     }
 
-    public static FontAdapter getMono() {
+    public static FontAdapter getMC() {
         if (mono == null) {
             int fsize = 18 * 2;
             try {
                 mono = (new QuickFontAdapter(new FontRenderer(Font.createFont(Font.TRUETYPE_FONT,
-                        Objects.requireNonNull(FontRenderers.class.getClassLoader().getResourceAsStream("Font.ttf"))).deriveFont(Font.PLAIN, fsize), fsize)));
+                        Objects.requireNonNull(FontRenderers.class.getClassLoader().getResourceAsStream("minecraft.ttf"))).deriveFont(Font.PLAIN, fsize), fsize)));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -38,7 +38,7 @@ public class FontRenderers {
         return mono;
     }
 
-    public static QuickFontAdapter getMonoSize(int size) {
+    public static QuickFontAdapter getMCSize(int size) {
         int size1 = size;
         size1 *= 2;
         for (QuickFontAdapter fontRenderer : fontRenderers) {
@@ -49,7 +49,7 @@ public class FontRenderers {
         int fsize = size1;
         try {
             QuickFontAdapter bruhAdapter = (new QuickFontAdapter(new FontRenderer(Font.createFont(Font.TRUETYPE_FONT,
-                    Objects.requireNonNull(FontRenderers.class.getClassLoader().getResourceAsStream("Font.ttf"))).deriveFont(Font.PLAIN, fsize), fsize)));
+                    Objects.requireNonNull(FontRenderers.class.getClassLoader().getResourceAsStream("minecraft.ttf"))).deriveFont(Font.PLAIN, fsize), fsize)));
             fontRenderers.add(bruhAdapter);
             return bruhAdapter;
         } catch (Exception e) {

@@ -6,6 +6,7 @@ import com.fartburger.fartcheat.event.events.NonCancellableEvent;
 import com.fartburger.fartcheat.event.events.WorldRenderEvent;
 import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleRegistry;
+import com.fartburger.fartcheat.modules.hacks.Headless;
 import com.fartburger.fartcheat.modules.hacks.Zoom;
 import com.fartburger.fartcheat.util.MSAAFrameBuffer;
 import com.fartburger.fartcheat.util.Utils;
@@ -66,5 +67,22 @@ public class GameRendererMixin {
 
             Events.fireEvent(EventType.HUD_RENDER, new NonCancellableEvent());
         });
+    }
+
+    @Inject(at=@At(value="HEAD"),method="renderWorld", cancellable = true)
+    void pekka_worldRender(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo ci) {
+        if(ModuleRegistry.getByClass(Headless.class).isEnabled()) {
+            ci.cancel();
+        }
+    }
+    @Inject(at=@At(value="HEAD"),method="renderHand", cancellable = true)
+    void pekka_handRender(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci) {
+        if(ModuleRegistry.getByClass(Headless.class).isEnabled()) {
+            ci.cancel();
+        }
+    }
+    @Inject(at=@At(value="HEAD"),method="renderNausea", cancellable = true)
+    void pekka_nauseaRender(float distortionStrength, CallbackInfo ci) {
+        ci.cancel();
     }
 }

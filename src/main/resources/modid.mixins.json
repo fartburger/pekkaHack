@@ -45,7 +45,8 @@
     "MouseMixin",
     "SimpleOptionMixin",
     "StatisticsScreenMixin",
-    "TitleScreenMixin"
+    "TitleScreenMixin",
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

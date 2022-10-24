@@ -1,6 +1,5 @@
 package com.fartburger.fartcheat.mixin;
 
-import baritone.api.BaritoneAPI;
 import com.fartburger.fartcheat.FCRMain;
 import com.fartburger.fartcheat.config.*;
 import com.fartburger.fartcheat.gui.clickgui.SettingGUI;
@@ -138,14 +137,6 @@ public abstract class ChatMixin extends Screen {
 
                         }
                     }
-                }
-            }
-            if(s.split(" ")[0].equalsIgnoreCase(".baritone")||s.split(" ")[0].equalsIgnoreCase(".b")||s.startsWith("@")) {
-                if(s.startsWith("@")) {
-                    BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute(s.substring(1));
-                } else {
-                    int offset = s.split(" ")[0].length() + 1;
-                    BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute(s.substring(offset));
                 }
             }
             if(s.split(" ")[0].equalsIgnoreCase(".bind")) {

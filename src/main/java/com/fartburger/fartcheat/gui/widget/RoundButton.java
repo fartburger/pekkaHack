@@ -103,7 +103,7 @@ public class RoundButton implements Element, Drawable, Selectable, HCursor {
 
     }
 
-    public static void onPress() {
+    public void onPress() {
         onPress.run();
     }
 

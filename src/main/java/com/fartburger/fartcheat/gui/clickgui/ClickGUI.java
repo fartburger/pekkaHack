@@ -213,6 +213,7 @@ public class ClickGUI extends ScreenBase {
 
     @Override
     public void renderInternal(MatrixStack stack, int mouseX, int mouseY, float delta) {
+
     }
 
 }

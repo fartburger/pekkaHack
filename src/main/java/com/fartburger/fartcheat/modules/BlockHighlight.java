@@ -1,6 +1,5 @@
 package com.fartburger.fartcheat.modules;
 
-import baritone.api.BaritoneAPI;
 import com.fartburger.fartcheat.config.StringSetting;
 import com.fartburger.fartcheat.event.EventListener;
 import com.fartburger.fartcheat.event.EventType;

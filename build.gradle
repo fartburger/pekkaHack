@@ -12,14 +12,15 @@ group = project.maven_group
 
 repositories {
 	flatDir {
-		dirs 'lib'
+		dirs "libs"
 	}
 	maven {
 		name = "meteor-maven"
 		url = "https://maven.meteordev.org/releases"
-		content {
-			includeGroup 'meteordevelopment'
-		}
+	}
+	maven {
+		name = "meteor-maven-snapshots"
+		url = "https://maven.meteordev.org/snapshots"
 	}
 	maven {
 		name = 'Ladysnake Mods'
@@ -28,10 +29,6 @@ repositories {
 			includeGroup 'io.github.ladysnake'
 			includeGroupByRegex 'io\\.github\\.onyxstudios.*'
 		}
-	}
-	maven {
-		name = "meteor-maven-snapshots"
-		url = "https://maven.meteordev.org/snapshots"
 	}
 	mavenCentral()
 }
@@ -56,8 +53,10 @@ dependencies {
 	compileOnly(group: "org.projectlombok", name: "lombok", version: "1.18.24")
 	annotationProcessor(group: "org.projectlombok", name: "lombok", version: "1.18.24")
 
+
+
 	// Baritone
-	modInclude "baritone:fabric:${project.minecraft_version}-SNAPSHOT"
+	// stupid fuck gradle cant find right version
 
 	// Fabric api
 	Set<String> apiModules = [
