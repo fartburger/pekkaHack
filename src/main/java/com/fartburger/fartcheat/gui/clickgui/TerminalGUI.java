@@ -46,6 +46,8 @@ public class TerminalGUI extends ScreenBase {
     public static String fieldText = "";
 
     public static Map<Integer,String> kc = new HashMap<>();
+
+    public static Map<UUID,String> uuid2name = new HashMap<>();
     
 
 
@@ -129,13 +131,20 @@ public class TerminalGUI extends ScreenBase {
 
 
     public static void packetReceive(ChatMessageS2CPacket packet) {
-        String s = FCRMain.client.getNetworkHandler().getPlayerListEntry(packet.message().signedHeader().sender()).getDisplayName().getString() +
-                "|"+packet.message().getContent().getString();
+        String s = FCRMain.client.getNetworkHandler().getPlayerListEntry(packet.message().signedHeader().sender()).getProfile().getName()+"|"+
+                packet.message().signedBody().content().plain();
         messages.add(s);
+        //System.out.println(packet.message().getSignedContent().toString());
     }
-    public static void packetReceive(PlayerListHeaderS2CPacket packet) {
-        String joinmsg = packet.getHeader().getContent().toString();
-        messages.add(joinmsg);
+    public static void packetReceive(PlayerListS2CPacket packet) {
+        System.out.println(packet.getEntries().toString());
+        if(packet.getAction()== PlayerListS2CPacket.Action.ADD_PLAYER) {
+            messages.add(packet.getEntries().get(0).getProfile().getName() + " has joined the game");
+            uuid2name.put(packet.getEntries().get(0).getProfile().getId(),packet.getEntries().get(0).getProfile().getName());
+        } else if(packet.getAction() == PlayerListS2CPacket.Action.REMOVE_PLAYER) {
+            messages.add(uuid2name.get(packet.getEntries().get(0).getProfile().getId()) + " has left the game");
+            uuid2name.remove(packet.getEntries().get(0).getProfile().getId());
+        }
     }
     
     public static void keyPressed(int keycode,int mods) {
@@ -151,7 +160,7 @@ public class TerminalGUI extends ScreenBase {
                 }
             }
             if (!Objects.equals(key, "BACKSPACE") && !Objects.equals(key, "ENTER")) {
-                if (mods == GLFW.GLFW_MOD_SHIFT) {
+                if (mods == GLFW.GLFW_MOD_SHIFT || mods == GLFW.GLFW_MOD_CAPS_LOCK) {
                     if(key.equals(";")) key = ":";
                     fieldText = fieldText + key;
                 } else {
@@ -178,7 +187,7 @@ public class TerminalGUI extends ScreenBase {
         try {
             messages.forEach(msg -> {
                 if(msg.contains("|")) {
-                    mcfont.drawString(matrices, StringUtils.join(msg.split("\\|"), "> "), 3, a * mcfont.getFontHeight() + 2 * a, new Color(255, 255, 255).getRGB());
+                    mcfont.drawString(matrices, StringUtils.join(msg.split("\\|"), "> "), 3, a * mcfont.getFontHeight() + 2 * a, new Color(20, 155, 20).getRGB());
                     a++;
                 } else {
                     mcfont.drawString(matrices,msg,3,a*mcfont.getFontHeight()+2*a,new Color(234, 204, 11).getRGB());
@@ -187,9 +196,9 @@ public class TerminalGUI extends ScreenBase {
             });
         } catch(Exception ignored) {}
         mcfont.drawString(matrices,FCRMain.client.player.getName().getString()+"> "+fieldText,
-                3,mcfont.getFontHeight()*(messages.size()-1)+2*(messages.size())+mcfont.getFontHeight(),new Color(20,155,20).getRGB());
+                3,mcfont.getFontHeight()*(messages.size()-1)+2*(messages.size())+mcfont.getFontHeight(),new Color(0, 255, 0).getRGB());
         if(blinkState!=0) {
-            Renderer.R2D.renderQuad(matrices, new Color(20, 155, 20), 3+mcfont.getStringWidth(FCRMain.client.player.getName().getString()+"> "+fieldText),
+            Renderer.R2D.renderQuad(matrices, new Color(0, 255, 0), 3+mcfont.getStringWidth(FCRMain.client.player.getName().getString()+"> "+fieldText),
                     mcfont.getFontHeight() * (messages.size()-1) + 2 * (messages.size()) + mcfont.getFontHeight(),
                     3+mcfont.getStringWidth(FCRMain.client.player.getName().getString()+"> "+fieldText) + mcfont.getStringWidth("a"),
                     mcfont.getFontHeight() * (messages.size()-1) + 2 * (messages.size()) + mcfont.getFontHeight() * 2);

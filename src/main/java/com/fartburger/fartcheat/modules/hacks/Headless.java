@@ -12,7 +12,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.packet.c2s.play.PlayerInputC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
+import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlayerListHeaderS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlayerListS2CPacket;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
@@ -43,8 +45,8 @@ public class Headless extends Module {
         if(event.getPacket() instanceof ChatMessageS2CPacket) {
             TerminalGUI.packetReceive(((ChatMessageS2CPacket) event.getPacket()));
         }
-        if(event.getPacket() instanceof PlayerListHeaderS2CPacket) {
-            TerminalGUI.packetReceive(((PlayerListHeaderS2CPacket) event.getPacket()));
+        if(event.getPacket() instanceof PlayerListS2CPacket) {
+            TerminalGUI.packetReceive((PlayerListS2CPacket) event.getPacket());
         }
     }
 

@@ -135,7 +135,7 @@ public class ESP extends Module {
                 continue;
             }
             if (shouldRenderEntity(entity)) {
-                Color c = entity.isPlayer() ? new Color(11, 204, 204) : new Color(70, 220, 33);
+                Color c = entity.isPlayer() ? new Color(11, 204, 204,140) : new Color(70, 220, 33,140);
                 Vec3d eSource = Utils.getInterpolatedEntityPosition(entity);
                 switch (outlineMode.getValue()) {
                     case Filled -> Renderer.R3D.renderFilled(matrices,
