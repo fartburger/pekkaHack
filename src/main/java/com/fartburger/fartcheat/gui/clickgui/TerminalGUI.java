@@ -17,6 +17,9 @@ import com.fartburger.fartcheat.util.render.Renderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
+import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlayerListHeaderS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlayerListS2CPacket;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec2f;
 import org.apache.commons.lang3.StringUtils;
@@ -126,9 +129,13 @@ public class TerminalGUI extends ScreenBase {
 
 
     public static void packetReceive(ChatMessageS2CPacket packet) {
-        String senderandmsg = FCRMain.client.world.getPlayerByUuid(packet.message().signedHeader().sender()).getName().getString() +
+        String s = FCRMain.client.getNetworkHandler().getPlayerListEntry(packet.message().signedHeader().sender()).getDisplayName().getString() +
                 "|"+packet.message().getContent().getString();
-        messages.add(senderandmsg);
+        messages.add(s);
+    }
+    public static void packetReceive(PlayerListHeaderS2CPacket packet) {
+        String joinmsg = packet.getHeader().getContent().toString();
+        messages.add(joinmsg);
     }
     
     public static void keyPressed(int keycode,int mods) {
@@ -170,8 +177,13 @@ public class TerminalGUI extends ScreenBase {
         a = 0;
         try {
             messages.forEach(msg -> {
-                mcfont.drawString(matrices, StringUtils.join(msg.split("\\|"), "> "), 3, a * mcfont.getFontHeight() + 2 * a, new Color(255, 255, 255).getRGB());
-                a++;
+                if(msg.contains("|")) {
+                    mcfont.drawString(matrices, StringUtils.join(msg.split("\\|"), "> "), 3, a * mcfont.getFontHeight() + 2 * a, new Color(255, 255, 255).getRGB());
+                    a++;
+                } else {
+                    mcfont.drawString(matrices,msg,3,a*mcfont.getFontHeight()+2*a,new Color(234, 204, 11).getRGB());
+                    a++;
+                }
             });
         } catch(Exception ignored) {}
         mcfont.drawString(matrices,FCRMain.client.player.getName().getString()+"> "+fieldText,

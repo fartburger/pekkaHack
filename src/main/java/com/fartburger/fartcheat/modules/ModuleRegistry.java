@@ -121,6 +121,7 @@ public class ModuleRegistry {
         registerModule(PacketCanceller.class);
         registerModule(BlockHighlight.class);
         registerModule(Headless.class);
+        registerModule(bomb.class);
 
 
         rebuildSharedModuleList();
