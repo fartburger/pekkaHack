@@ -35,7 +35,7 @@ public class bomb extends Module {
             .get());
 
     public bomb() {
-        super("bomb","", ModuleType.MISC);
+        super("IllegalItems","", ModuleType.MISC);
     }
 
     @Override
@@ -45,80 +45,93 @@ public class bomb extends Module {
 
     @Override
     public void enable() {
-        /*
-        ItemStack spawnEgg = new ItemStack(Items.BAT_SPAWN_EGG,64);
-        NbtCompound entityTag = spawnEgg.getOrCreateSubNbt("EntityTag");
-        entityTag.put("id", NbtString.of("minecraft:fireball"));
-        entityTag.put("ExplosionPower", NbtDouble.of(power.getValue()));
-        CreativeInventoryActionC2SPacket set = new CreativeInventoryActionC2SPacket(1, spawnEgg);
-        Objects.requireNonNull(FCRMain.client.getNetworkHandler()).sendPacket(set);
-
-        ItemStack spawner = new ItemStack(Items.64);
-        CreativeInventoryActionC2SPacket sp = new CreativeInventoryActionC2SPacket(2,spawner);
-        Objects.requireNonNull(FCRMain.client.getNetworkHandler()).sendPacket(sp);
-
-        ItemStack CommandBlock = new ItemStack(Items.KNOWLEDGE_BOOK,64);
-        ItemStack CommandBlock2 = new ItemStack(Items.CHICKEN_SPAWN_EGG,64);
-        NbtCompound blocktag2 = CommandBlock2.getOrCreateSubNbt("EntityTag");
-        blocktag2.put("id",NbtString.of("minecraft:command_block_minecart"));
-        blocktag2.put("Command",NbtString.of("say test"));
-        CreativeInventoryActionC2SPacket sp2 = new CreativeInventoryActionC2SPacket(3,CommandBlock);
-        CreativeInventoryActionC2SPacket sp3 = new CreativeInventoryActionC2SPacket(4,CommandBlock2);
-        Objects.requireNonNull(FCRMain.client.getNetworkHandler()).sendPacket(sp2);
-        Objects.requireNonNull(FCRMain.client.getNetworkHandler()).sendPacket(sp3);
-        this.setEnabled(false);
-         */
         ItemStack s = new ItemStack(Items.BLACK_SHULKER_BOX,1);
         NbtCompound stag = s.getOrCreateSubNbt("BlockEntityTag");
         NbtList list = new NbtList();
+
         NbtCompound item0 = new NbtCompound();
         item0.put("Slot",NbtInt.of(0));
         item0.put("id",NbtString.of("minecraft:command_block"));
         item0.put("Count",NbtInt.of(64));
         list.addElement(0,item0);
+
         NbtCompound item1 = new NbtCompound();
-        item1.put("Slot",NbtInt.of(0));
+        item1.put("Slot",NbtInt.of(1));
         item1.put("id",NbtString.of("minecraft:end_portal"));
         item1.put("Count",NbtInt.of(64));
         list.addElement(1,item1);
+
         NbtCompound item2 = new NbtCompound();
-        item2.put("Slot",NbtInt.of(0));
+        item2.put("Slot",NbtInt.of(2));
         item2.put("id",NbtString.of("minecraft:barrier"));
         item2.put("Count",NbtInt.of(64));
         list.addElement(2,item2);
+
         NbtCompound item4 = new NbtCompound();
-        item4.put("Slot",NbtInt.of(0));
+        item4.put("Slot",NbtInt.of(3));
         item4.put("id",NbtString.of("minecraft:knowledge_book"));
         item4.put("Count",NbtInt.of(1));
-        list.addElement(4,item4);
+        list.addElement(3,item4);
+
         NbtCompound item5 = new NbtCompound();
-        item5.put("Slot",NbtInt.of(0));
+        item5.put("Slot",NbtInt.of(4));
         item5.put("id",NbtString.of("minecraft:debug_stick"));
         item5.put("Count",NbtInt.of(1));
-        list.addElement(5,item5);
+        list.addElement(4,item5);
+
         NbtCompound item6 = new NbtCompound();
-        item6.put("Slot",NbtInt.of(0));
+        item6.put("Slot",NbtInt.of(5));
         item6.put("id",NbtString.of("minecraft:spawner"));
         item6.put("Count",NbtInt.of(64));
-        list.addElement(6,item6);
+        list.addElement(5,item6);
+
         NbtCompound item7 = new NbtCompound();
-        item7.put("Slot",NbtInt.of(0));
-        item7.put("id",NbtString.of("minecraft:spawn_egg"));
+        item7.put("Slot",NbtInt.of(6));
+        item7.put("id",NbtString.of("minecraft:pig_spawn_egg"));
         item7.put("Count",NbtInt.of(64));
         NbtCompound tag3 = new NbtCompound();
         NbtCompound tag4 = new NbtCompound();
-        tag3.put("EntityTag",tag4);
+        NbtCompound n = new NbtCompound();
         tag4.put("id",NbtString.of("minecraft:wither"));
-        list.addElement(7,item7);
+        tag4.put("Invulnerable",NbtInt.of(1));
+        tag3.put("EntityTag",tag4);
+        item7.put("tag",tag3);
+        list.addElement(6,item7);
+
         NbtCompound item8 = new NbtCompound();
-        item8.put("Slot",NbtInt.of(0));
+        item8.put("Slot",NbtInt.of(7));
         item8.put("id",NbtString.of("minecraft:chicken_spawn_egg"));
         item8.put("Count",NbtInt.of(64));
         NbtCompound tag5 = new NbtCompound();
         NbtCompound tag6 = new NbtCompound();
         tag6.put("id",NbtString.of("minecraft:lightning_bolt"));
         tag5.put("EntityTag",tag6);
-        list.addElement(8,item8);
+        item8.put("tag",tag5);
+        list.addElement(7,item8);
+
+        NbtCompound item9 = new NbtCompound();
+        item9.put("Slot",NbtInt.of(8));
+        item9.put("id",NbtString.of("minecraft:void_air"));
+        item9.put("Count",NbtInt.of(64));
+        list.addElement(8,item9);
+
+        NbtCompound item10 = new NbtCompound();
+        item10.put("Slot",NbtInt.of(9));
+        item10.put("id",NbtString.of("minecraft:structure_void"));
+        item10.put("Count",NbtInt.of(64));
+        list.addElement(9,item10);
+
+        NbtCompound item11 = new NbtCompound();
+        item11.put("Slot",NbtInt.of(10));
+        item11.put("id",NbtString.of("minecraft:structure_block"));
+        item11.put("Count",NbtInt.of(64));
+        list.addElement(10,item11);
+
+        NbtCompound item12 = new NbtCompound();
+        item12.put("Slot",NbtInt.of(11));
+        item12.put("id",NbtString.of("minecraft:water"));
+        item12.put("Count",NbtInt.of(64));
+        list.addElement(11,item12);
 
 
         stag.put("Items",list);
