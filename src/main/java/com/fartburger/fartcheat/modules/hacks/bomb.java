@@ -133,6 +133,65 @@ public class bomb extends Module {
         item12.put("Count",NbtInt.of(64));
         list.addElement(11,item12);
 
+        NbtCompound item13 = new NbtCompound();
+        item13.put("Slot",NbtInt.of(12));
+        item13.put("id",NbtString.of("minecraft:goat_spawn_egg"));
+        item13.put("Count",NbtInt.of(64));
+        NbtCompound tag7 = new NbtCompound();
+        tag7.put("id",NbtString.of("minecraft:area_effect_cloud"));
+        tag7.put("Particle",NbtString.of("explosion"));
+        tag7.put("Radius",NbtFloat.of(50));
+        tag7.put("Duration",NbtInt.of(500));
+        tag7.put("Color",NbtInt.of(537087));
+        NbtCompound tag8 = new NbtCompound();
+        tag8.put("EntityTag",tag7);
+        item13.put("tag",tag8);
+        list.addElement(12,item13);
+
+        NbtCompound item14 = new NbtCompound();
+        item14.put("Slot",NbtInt.of(13));
+        item14.put("id",NbtString.of("minecraft:enderman_spawn_egg"));
+        item14.put("Count",NbtInt.of(64));
+        NbtCompound carried = new NbtCompound();
+        carried.put("Name",NbtString.of("minecraft:command_block"));
+        NbtCompound cbs = new NbtCompound();
+        cbs.put("carriedBlockState",carried);
+        NbtCompound tag9 = new NbtCompound();
+        tag9.put("EntityTag",cbs);
+        item14.put("tag",tag9);
+        list.addElement(13,item14);
+
+        NbtCompound item15 = new NbtCompound();
+        item15.put("Slot",NbtInt.of(14));
+        item15.put("id",NbtString.of("minecraft:strider_spawn_egg"));
+        item15.put("Count",NbtInt.of(64));
+        NbtCompound tcmd = new NbtCompound();
+        tcmd.put("Command",NbtString.of("say test"));
+        tcmd.put("Powered",NbtInt.of(1));
+        NbtCompound fallingblock = new NbtCompound();
+        fallingblock.put("Name",NbtString.of("minecraft:command_block"));
+        fallingblock.put("Time",NbtInt.of(1));
+        fallingblock.put("TileEntityData",tcmd);
+        NbtCompound blockstate = new NbtCompound();
+        blockstate.put("id",NbtString.of("minecraft:falling_block"));
+        blockstate.put("BlockState",fallingblock);
+        NbtCompound tag10 = new NbtCompound();
+        tag10.put("EntityTag",blockstate);
+        item15.put("tag",tag10);
+        list.addElement(14,item15);
+
+        NbtCompound item16 = new NbtCompound();
+        item16.put("Slot",NbtInt.of(15));
+        item16.put("id",NbtString.of("minecraft:villager_spawn_egg"));
+        item16.put("Count",NbtInt.of(64));
+        NbtCompound orb = new NbtCompound();
+        orb.put("id",NbtString.of("minecraft:experience_orb"));
+        orb.put("Value",NbtInt.of(1237));
+        NbtCompound tag11 = new NbtCompound();
+        tag11.put("EntityTag",orb);
+        item16.put("tag",tag11);
+        list.addElement(15,item16);
+
 
         stag.put("Items",list);
 
