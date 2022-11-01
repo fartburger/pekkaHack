@@ -38,23 +38,25 @@ public class BoatFly extends Module {
     public BoatFly() {
         super("BoatFly","Lets you fly inna boat", ModuleType.MOVEMENT);
         Events.registerEventHandler(EventType.BOAT_MOVE, event -> {
-            BoatEntity boat = ((BoatMoveEvent)event).boat;
-            if(boat.getPrimaryPassenger()!= FCRMain.client.player) return;
-            boat.setYaw(FCRMain.client.player.getYaw());
-            Vec3d vel = getHorizontalVelocity(HSpeed.getValue());
-            double velx = vel.x;
-            double vely = 0;
-            double velz = vel.z;
+            if(this.isEnabled()) {
+                BoatEntity boat = ((BoatMoveEvent) event).boat;
+                if (boat.getPrimaryPassenger() != FCRMain.client.player) return;
+                boat.setYaw(FCRMain.client.player.getYaw());
+                Vec3d vel = getHorizontalVelocity(HSpeed.getValue());
+                double velx = vel.x;
+                double vely = 0;
+                double velz = vel.z;
 
 
-            if (FCRMain.client.options.jumpKey.isPressed()) vely += VSpeed.getValue() / 20;
-            if (FCRMain.client.options.sprintKey.isPressed()) vely -= VSpeed.getValue() / 20;
-            else vely -= 0.6 / 20;
+                if (FCRMain.client.options.jumpKey.isPressed()) vely += VSpeed.getValue() / 20;
+                if (FCRMain.client.options.sprintKey.isPressed()) vely -= VSpeed.getValue() / 20;
+                else vely -= 0.6 / 20;
 
-            boat.setVelocity(new Vec3d(velx,vely,velz));
+                boat.setVelocity(new Vec3d(velx, vely, velz));
+            }
         },0);
         Events.registerEventHandler(EventType.PACKET_RECEIVE,event -> {
-            if(((PacketEvent)event).getPacket() instanceof VehicleMoveS2CPacket p && isp.getValue()) {
+            if(((PacketEvent)event).getPacket() instanceof VehicleMoveS2CPacket p && isp.getValue()&&this.isEnabled()) {
                 event.setCancelled(true);
             }
         },0);
