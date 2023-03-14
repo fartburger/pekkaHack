@@ -9,6 +9,7 @@ import com.fartburger.fartcheat.modules.ModuleType;
 import com.fartburger.fartcheat.util.render.Renderer;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.*;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -44,7 +45,7 @@ public class BaseFinder extends Module {
     }
 
     public boolean isBaseBlock(BlockPos b1) {
-        Block b2 = client.world.getBlockState(b1).getBlock();
+        Block b2 = MinecraftClient.getInstance().world.getBlockState(b1).getBlock();
         return (b2 instanceof ChestBlock || b2 instanceof ShulkerBoxBlock || b2 instanceof CraftingTableBlock || b2 instanceof BedBlock || b2 instanceof FurnaceBlock || b2 instanceof BlastFurnaceBlock || b2 instanceof EnchantingTableBlock || b2 instanceof AnvilBlock);
     }
 
@@ -79,7 +80,7 @@ public class BaseFinder extends Module {
         try {
             storageBlocks.forEach((ent, pos) -> {
                 if (ent != null) {
-                    if (!(client.world.getBlockState(pos).getBlock() instanceof ChestBlock || client.world.getBlockState(pos).getBlock() instanceof ShulkerBoxBlock || client.world.getBlockState(pos).getBlock() instanceof BedBlock || client.world.getBlockState(pos).getBlock() instanceof EnchantingTableBlock || client.world.getBlockState(pos).getBlock() instanceof FurnaceBlock) || ent == null) {
+                    if (!(MinecraftClient.getInstance().world.getBlockState(pos).getBlock() instanceof ChestBlock || MinecraftClient.getInstance().world.getBlockState(pos).getBlock() instanceof ShulkerBoxBlock || MinecraftClient.getInstance().world.getBlockState(pos).getBlock() instanceof BedBlock || MinecraftClient.getInstance().world.getBlockState(pos).getBlock() instanceof EnchantingTableBlock || MinecraftClient.getInstance().world.getBlockState(pos).getBlock() instanceof FurnaceBlock) || ent == null) {
                         storageBlocks.remove(ent);
                     }
                 }
@@ -145,7 +146,7 @@ public class BaseFinder extends Module {
             for (BlockPos pos : new BlockPos[] { right, left, fw, bw, up, down, right2, left2, fw2, bw2, up2, down2,fr,fl,br,bl,fr2,fl2,br2,bl2 }) {
                 //System.out.println(client.world.getBlockState(pos).getBlock());
                 if(isBaseBlock(pos)&&!forget.contains(pos)) {
-                    certainty+=getCertaintyValue(client.world.getBlockState(pos).getBlock());
+                    certainty+=getCertaintyValue(MinecraftClient.getInstance().world.getBlockState(pos).getBlock());
                     if(!storageBlocks.containsValue(pos)) { forget.add(pos); }
                 }
             }

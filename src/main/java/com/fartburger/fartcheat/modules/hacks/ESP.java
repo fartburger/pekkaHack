@@ -11,6 +11,7 @@ import com.fartburger.fartcheat.util.render.Renderer;
 import com.fartburger.fartcheat.util.vertex.DumpVertexConsumer;
 import com.fartburger.fartcheat.util.vertex.DumpVertexProvider;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -162,8 +163,8 @@ public class ESP extends Module {
 
         List<Vec3d> boxPoints = new ArrayList<>();
         if (shaderMode.getValue() == ShaderMode.Accurate) {
-            EntityRenderer<? super Entity> eRenderer = client.getEntityRenderDispatcher().getRenderer(e);
-            eRenderer.render(e, e.getYaw(), client.getTickDelta(), Renderer.R3D.getEmptyMatrixStack(), provider, 0);
+            EntityRenderer<? super Entity> eRenderer = MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(e);
+            eRenderer.render(e, e.getYaw(), MinecraftClient.getInstance().getTickDelta(), Renderer.R3D.getEmptyMatrixStack(), provider, 0);
             for (DumpVertexConsumer consumer : provider.getBuffers()) {
                 for (DumpVertexConsumer.VertexData vertexData : consumer.getStack()) {
                     if (vertexData.getPosition() != null) {

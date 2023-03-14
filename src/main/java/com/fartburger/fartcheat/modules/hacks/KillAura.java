@@ -18,6 +18,7 @@ import com.fartburger.fartcheat.util.Utils;
 import com.google.common.util.concurrent.AtomicDouble;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import it.unimi.dsi.fastutil.ints.Int2DoubleArrayMap;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
@@ -161,7 +162,7 @@ public class KillAura extends Module {
     }
 
     int getDelay() {
-        if (client.player == null) {
+        if (MinecraftClient.getInstance().player == null) {
             return 0;
         }
         if (!automaticDelay) {
@@ -188,7 +189,7 @@ public class KillAura extends Module {
     void onPacketSend(PacketEvent pe) {
         if (pe.getPacket() instanceof PlayerMoveC2SPacket) {
             for (Integer integer : playersWhoHaveSpawnedAndStayedInOurRange.keySet().toArray(Integer[]::new)) {
-                Entity entityById = client.world.getEntityById(integer);
+                Entity entityById = MinecraftClient.getInstance().world.getEntityById(integer);
                 if (entityById == null || !isWithinSusRange(entityById.getPos())) {
                     playersWhoHaveSpawnedAndStayedInOurRange.remove((int) integer); // no longer applicable
                 } else {
@@ -211,12 +212,12 @@ public class KillAura extends Module {
     }
 
     boolean isInRange(Vec3d pos) {
-        return pos.distanceTo(client.player.getEyePos()) <= getRange();
+        return pos.distanceTo(MinecraftClient.getInstance().player.getEyePos()) <= getRange();
     }
 
     List<LivingEntity> selectTargets() {
-        List<LivingEntity> entities = new ArrayList<>(StreamSupport.stream(client.world.getEntities().spliterator(), false)
-                .filter(entity -> !entity.equals(client.player)) // filter our player out
+        List<LivingEntity> entities = new ArrayList<>(StreamSupport.stream(MinecraftClient.getInstance().world.getEntities().spliterator(), false)
+                .filter(entity -> !entity.equals(MinecraftClient.getInstance().player)) // filter our player out
                 .filter(Entity::isAlive)
                 .filter(Entity::isAttackable) // filter all entities we can't attack out
                 .filter(entity -> entity instanceof LivingEntity) // filter all "entities" that aren't actual entities out
@@ -232,7 +233,7 @@ public class KillAura extends Module {
                 })
                 .toList());
         switch (selectMode) {
-            case Distance -> entities.sort(Comparator.comparingDouble(value -> value.distanceTo(client.player))); // low distance first
+            case Distance -> entities.sort(Comparator.comparingDouble(value -> value.distanceTo(MinecraftClient.getInstance().player))); // low distance first
             case LowHealthFirst -> entities.sort(Comparator.comparingDouble(LivingEntity::getHealth)); // low health first
             case HighHealthFirst -> entities.sort(Comparator.comparingDouble(LivingEntity::getHealth).reversed()); // high health first
         }
@@ -277,7 +278,7 @@ public class KillAura extends Module {
         if (smooth) {
             LivingEntity target = targets.get(0);
             Vec3d ranged = Rotations.getRotationVector(Rotations.getClientPitch(), Rotations.getClientYaw()).multiply(getRange());
-            Box allowed = client.player.getBoundingBox().stretch(ranged).expand(1, 1, 1);
+            Box allowed = MinecraftClient.getInstance().player.getBoundingBox().stretch(ranged).expand(1, 1, 1);
             EntityHitResult ehr = ProjectileUtil.raycast(FCRMain.client.player,
                     FCRMain.client.player.getCameraPosVec(0),
                     FCRMain.client.player.getCameraPosVec(0).add(ranged),
@@ -366,7 +367,7 @@ public class KillAura extends Module {
                 AntibotCheck.from("NameLowercase", 0.3, e -> StringUtils.isAllLowerCase(e.getEntityName())),
                 AntibotCheck.from("NoVelocity", 0.1, e -> e.getVelocity().equals(Vec3d.ZERO)),
                 AntibotCheck.from("DefaultSkin", 0.1, e -> {
-                    PlayerListEntry playerListEntry = client.getNetworkHandler().getPlayerListEntry(e.getUuid());
+                    PlayerListEntry playerListEntry = MinecraftClient.getInstance().getNetworkHandler().getPlayerListEntry(e.getUuid());
                     return playerListEntry != null && ((IPlayerListEntryMixin) playerListEntry).pekka_getTextures().get(MinecraftProfileTexture.Type.SKIN) == null;
                 }),
                 AntibotCheck.from("YTooClose", 0.1, e -> {

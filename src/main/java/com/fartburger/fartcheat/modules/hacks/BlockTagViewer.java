@@ -8,6 +8,7 @@ import com.fartburger.fartcheat.util.font.FontRenderers;
 import com.fartburger.fartcheat.util.render.Renderer;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.hit.BlockHitResult;
@@ -33,10 +34,10 @@ public class BlockTagViewer extends Module {
 
     @Override
     public void tick() {
-        HitResult hr = client.crosshairTarget;
+        HitResult hr = MinecraftClient.getInstance().crosshairTarget;
         if (hr instanceof BlockHitResult bhr) {
             BlockPos bp = bhr.getBlockPos();
-            BlockState state = Objects.requireNonNull(client.world).getBlockState(bp);
+            BlockState state = Objects.requireNonNull(MinecraftClient.getInstance().world).getBlockState(bp);
             if(state.getBlock() instanceof AirBlock) return;
 
             List<String> c = new ArrayList<>();
@@ -44,7 +45,7 @@ public class BlockTagViewer extends Module {
                 String v = property.getName() + ": " + state.get(property).toString();
                 c.add(v);
             }
-            String v = "Light level(block): "+client.world.getLightLevel(LightType.BLOCK,getSide(bp,bhr));
+            String v = "Light level(block): "+MinecraftClient.getInstance().world.getLightLevel(LightType.BLOCK,getSide(bp,bhr));
             c.add(v);
 
             for (String s : c) {
@@ -118,8 +119,8 @@ public class BlockTagViewer extends Module {
         if (l.isEmpty()) {
             return;
         }
-        float w = client.getWindow().getScaledWidth() / 2f;
-        float h = client.getWindow().getScaledHeight() / 2f;
+        float w = MinecraftClient.getInstance().getWindow().getScaledWidth() / 2f;
+        float h = MinecraftClient.getInstance().getWindow().getScaledHeight() / 2f;
         MatrixStack s = new MatrixStack();
         s.push();
         s.translate(w, h, 0);

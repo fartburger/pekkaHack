@@ -7,6 +7,7 @@ import com.fartburger.fartcheat.modules.ModuleRegistry;
 import com.fartburger.fartcheat.modules.ModuleType;
 import com.fartburger.fartcheat.util.keybind;
 import com.fartburger.fartcheat.util.render.Renderer;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
@@ -51,8 +52,8 @@ public class Zoom extends Module {
 
     @Override
     public void enable() {
-        msens = client.options.getMouseSensitivity().getValue();
-        client.options.getMouseSensitivity().setValue(msens * (finalFov.getValue() / client.options.getFov().getValue()));
+        msens = MinecraftClient.getInstance().options.getMouseSensitivity().getValue();
+        MinecraftClient.getInstance().options.getMouseSensitivity().setValue(msens * (finalFov.getValue() / MinecraftClient.getInstance().options.getFov().getValue()));
         kb = new keybind((int) (keybind.getValue() + 0));
         enabledTime = System.currentTimeMillis();
     }
@@ -60,7 +61,7 @@ public class Zoom extends Module {
     @Override
     public void disable() {
         enabledTime = System.currentTimeMillis();
-        client.options.getMouseSensitivity().setValue(msens);
+        MinecraftClient.getInstance().options.getMouseSensitivity().setValue(msens);
     }
 
     @Override

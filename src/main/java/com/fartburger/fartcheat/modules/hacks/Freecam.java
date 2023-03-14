@@ -8,6 +8,7 @@ import com.fartburger.fartcheat.event.events.PacketEvent;
 import com.fartburger.fartcheat.event.events.PlayerNoClipQueryEvent;
 import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleType;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.network.packet.c2s.play.PlayerInputC2SPacket;
@@ -54,33 +55,33 @@ public class Freecam extends Module {
 
     @Override
     public void tick() {
-        Objects.requireNonNull(client.player).getAbilities().setFlySpeed((float) (this.speed.getValue() + 0f) / 20f);
-        client.player.getAbilities().flying = true;
+        Objects.requireNonNull(MinecraftClient.getInstance().player).getAbilities().setFlySpeed((float) (this.speed.getValue() + 0f) / 20f);
+        MinecraftClient.getInstance().player.getAbilities().flying = true;
     }
 
     @Override
     public void enable() {
-        startloc = Objects.requireNonNull(client.player).getPos();
-        pitch = client.player.getPitch();
-        yaw = client.player.getYaw();
-        client.gameRenderer.setRenderHand(false);
-        flewBefore = client.player.getAbilities().flying;
-        client.player.setOnGround(false);
+        startloc = Objects.requireNonNull(MinecraftClient.getInstance().player).getPos();
+        pitch = MinecraftClient.getInstance().player.getPitch();
+        yaw = MinecraftClient.getInstance().player.getYaw();
+        MinecraftClient.getInstance().gameRenderer.setRenderHand(false);
+        flewBefore = MinecraftClient.getInstance().player.getAbilities().flying;
+        MinecraftClient.getInstance().player.setOnGround(false);
     }
 
     @Override
     public void disable() {
         if (startloc != null) {
-            Objects.requireNonNull(client.player).updatePosition(startloc.x, startloc.y, startloc.z);
+            Objects.requireNonNull(MinecraftClient.getInstance().player).updatePosition(startloc.x, startloc.y, startloc.z);
         }
         startloc = null;
-        Objects.requireNonNull(client.player).setYaw(yaw);
-        client.player.setPitch(pitch);
+        Objects.requireNonNull(MinecraftClient.getInstance().player).setYaw(yaw);
+        MinecraftClient.getInstance().player.setPitch(pitch);
         yaw = pitch = 0f;
-        client.gameRenderer.setRenderHand(true);
-        client.player.getAbilities().flying = flewBefore;
-        client.player.getAbilities().setFlySpeed(0.05f);
-        client.player.setVelocity(0, 0, 0);
+        MinecraftClient.getInstance().gameRenderer.setRenderHand(true);
+        MinecraftClient.getInstance().player.getAbilities().flying = flewBefore;
+        MinecraftClient.getInstance().player.getAbilities().setFlySpeed(0.05f);
+        MinecraftClient.getInstance().player.setVelocity(0, 0, 0);
     }
 
     @Override
@@ -90,8 +91,8 @@ public class Freecam extends Module {
 
     @Override
     public void onWorldRender(MatrixStack matrices) {
-        Objects.requireNonNull(client.player).setSwimming(false);
-        client.player.setPose(EntityPose.STANDING);
+        Objects.requireNonNull(MinecraftClient.getInstance().player).setSwimming(false);
+        MinecraftClient.getInstance().player.setPose(EntityPose.STANDING);
     }
 
     @Override

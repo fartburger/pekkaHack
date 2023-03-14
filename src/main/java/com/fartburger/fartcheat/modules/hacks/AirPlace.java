@@ -8,6 +8,7 @@ import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleType;
 import com.fartburger.fartcheat.util.Utils;
 import com.fartburger.fartcheat.util.render.Renderer;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
@@ -32,13 +33,13 @@ public class AirPlace extends Module {
                     return;
                 }
                 try {
-                    if (!client.world.getBlockState(((BlockHitResult) FCRMain.client.crosshairTarget).getBlockPos()).isAir()) {
+                    if (!MinecraftClient.getInstance().world.getBlockState(((BlockHitResult) FCRMain.client.crosshairTarget).getBlockPos()).isAir()) {
                         return;
                     }
                     FCRMain.client.player.networkHandler.sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND,
                             (BlockHitResult) FCRMain.client.crosshairTarget,
                             Utils.increaseAndCloseUpdateManager(FCRMain.client.world)));
-                    if ((client.player.getMainHandStack().getItem() instanceof BlockItem)) {
+                    if ((MinecraftClient.getInstance().player.getMainHandStack().getItem() instanceof BlockItem)) {
                         Renderer.R3D.renderFadingBlock(Renderer.Util.modify(Utils.getCurrentRGB(), -1, -1, -1, 255),
                                 Renderer.Util.modify(Utils.getCurrentRGB(), -1, -1, -1, 100).darker(),
                                 Vec3d.of(((BlockHitResult) FCRMain.client.crosshairTarget).getBlockPos()),
@@ -75,10 +76,10 @@ public class AirPlace extends Module {
 
     @Override
     public void onWorldRender(MatrixStack matrices) {
-        if (!client.world.getBlockState(((BlockHitResult) FCRMain.client.crosshairTarget).getBlockPos()).isAir()) {
+        if (!MinecraftClient.getInstance().world.getBlockState(((BlockHitResult) FCRMain.client.crosshairTarget).getBlockPos()).isAir()) {
             return;
         }
-        if ((client.player.getMainHandStack().getItem() instanceof BlockItem)) {
+        if ((MinecraftClient.getInstance().player.getMainHandStack().getItem() instanceof BlockItem)) {
             Renderer.R3D.renderOutline(matrices,new Color(5, 23, 86),
                     Vec3d.of(((BlockHitResult) FCRMain.client.crosshairTarget).getBlockPos()),
                     new Vec3d(1, 1, 1));

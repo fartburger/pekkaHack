@@ -5,6 +5,7 @@ import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleRegistry;
 import com.fartburger.fartcheat.modules.ModuleType;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -23,7 +24,7 @@ public class AutoTool extends Module {
         int index = -1;
         int optAirIndex = -1;
         for (int i = 0; i < 9; i++) {
-            ItemStack stack = Objects.requireNonNull(client.player).getInventory().getStack(i);
+            ItemStack stack = Objects.requireNonNull(MinecraftClient.getInstance().player).getInventory().getStack(i);
             if (stack.getItem() == Items.AIR) {
                 optAirIndex = i;
             }
@@ -33,19 +34,19 @@ public class AutoTool extends Module {
             }
         }
         if (index != -1) {
-            client.player.getInventory().selectedSlot = index;
+            MinecraftClient.getInstance().player.getInventory().selectedSlot = index;
         } else {
             if (optAirIndex != -1) {
-                client.player.getInventory().selectedSlot = optAirIndex; // to prevent tools from getting damaged by accident, switch to air if we didn't find anything
+                MinecraftClient.getInstance().player.getInventory().selectedSlot = optAirIndex; // to prevent tools from getting damaged by accident, switch to air if we didn't find anything
             }
         }
     }
 
     @Override
     public void tick() {
-        if (Objects.requireNonNull(client.interactionManager).isBreakingBlock()) {
-            BlockPos breaking = ((IClientPlayerInteractionManagerMixin) client.interactionManager).getCurrentBreakingPos();
-            BlockState bs = Objects.requireNonNull(client.world).getBlockState(breaking);
+        if (Objects.requireNonNull(MinecraftClient.getInstance().interactionManager).isBreakingBlock()) {
+            BlockPos breaking = ((IClientPlayerInteractionManagerMixin) MinecraftClient.getInstance().interactionManager).getCurrentBreakingPos();
+            BlockState bs = Objects.requireNonNull(MinecraftClient.getInstance().world).getBlockState(breaking);
             pick(bs);
         }
     }

@@ -9,6 +9,7 @@ import com.fartburger.fartcheat.util.render.Renderer;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -47,20 +48,20 @@ public class StorageESP extends Module {
         if(be.getBlockEntity() instanceof ShulkerBoxBlockEntity) {
             addIfNotExisting(be.getBlockEntity().getPos());
         }
-        if(client.world.getBlockState(be.getBlockEntity().getPos()).getBlock() instanceof NetherPortalBlock) {
+        if(MinecraftClient.getInstance().world.getBlockState(be.getBlockEntity().getPos()).getBlock() instanceof NetherPortalBlock) {
             addIfNotExisting(be.getBlockEntity().getPos());
         }
-        if(client.world.getBlockState(be.getBlockEntity().getPos()).getBlock() instanceof EndPortalBlock) {
+        if(MinecraftClient.getInstance().world.getBlockState(be.getBlockEntity().getPos()).getBlock() instanceof EndPortalBlock) {
             addIfNotExisting(be.getBlockEntity().getPos());
         }
-        if(client.world.getBlockState(be.getBlockEntity().getPos()).getBlock() instanceof EndPortalFrameBlock) {
+        if(MinecraftClient.getInstance().world.getBlockState(be.getBlockEntity().getPos()).getBlock() instanceof EndPortalFrameBlock) {
             addIfNotExisting(be.getBlockEntity().getPos());
         }
     }
 
     @Override
     public void tick() {
-        positions.removeIf(blockPos -> !(client.world.getBlockState(blockPos).getBlock() instanceof ChestBlock||client.world.getBlockState(blockPos).getBlock() instanceof ShulkerBoxBlock||client.world.getBlockState(blockPos).getBlock() instanceof NetherPortalBlock||client.world.getBlockState(blockPos).getBlock() instanceof EndPortalBlock||client.world.getBlockState(blockPos).getBlock() instanceof EndPortalBlock));
+        positions.removeIf(blockPos -> !(MinecraftClient.getInstance().world.getBlockState(blockPos).getBlock() instanceof ChestBlock||MinecraftClient.getInstance().world.getBlockState(blockPos).getBlock() instanceof ShulkerBoxBlock||MinecraftClient.getInstance().world.getBlockState(blockPos).getBlock() instanceof NetherPortalBlock||MinecraftClient.getInstance().world.getBlockState(blockPos).getBlock() instanceof EndPortalBlock||MinecraftClient.getInstance().world.getBlockState(blockPos).getBlock() instanceof EndPortalBlock));
     }
 
     @Override
@@ -81,10 +82,10 @@ public class StorageESP extends Module {
     @Override
     public void onWorldRender(MatrixStack matrices) {
         for (BlockPos position : positions) {
-            if(client.world.getBlockState(position).getBlock() instanceof ChestBlock) {
+            if(MinecraftClient.getInstance().world.getBlockState(position).getBlock() instanceof ChestBlock) {
                 Renderer.R3D.renderFilled(matrices, chestColor, Vec3d.of(position), new Vec3d(1, 1, 1));
             }
-            if(client.world.getBlockState(position).getBlock() instanceof ShulkerBoxBlock) {
+            if(MinecraftClient.getInstance().world.getBlockState(position).getBlock() instanceof ShulkerBoxBlock) {
                 Renderer.R3D.renderFilled(matrices, shulkerBoxColor, Vec3d.of(position), new Vec3d(1, 1, 1));
             }
         }

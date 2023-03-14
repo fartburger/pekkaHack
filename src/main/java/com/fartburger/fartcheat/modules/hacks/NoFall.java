@@ -5,6 +5,7 @@ import com.fartburger.fartcheat.event.Events;
 import com.fartburger.fartcheat.event.events.PacketEvent;
 import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleType;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
@@ -19,11 +20,11 @@ public class NoFall extends Module {
 
     @Override
     public void tick() {
-        if(client.player==null||client.getNetworkHandler()==null) {
+        if(MinecraftClient.getInstance().player==null||MinecraftClient.getInstance().getNetworkHandler()==null) {
             return;
         }
-        if(client.player.fallDistance>1) {
-            client.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true));
+        if(MinecraftClient.getInstance().player.fallDistance>1) {
+            MinecraftClient.getInstance().getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true));
         }
     }
 

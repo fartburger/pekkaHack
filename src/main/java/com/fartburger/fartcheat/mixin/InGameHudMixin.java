@@ -38,9 +38,6 @@ public class InGameHudMixin {
     @Inject(at=@At("TAIL"),method="render")
     void pekka_hud(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
         int fps = ((MinecraftClientMixin) MinecraftClient.getInstance()).getCurrentFps();
-        time++;
-        com.fartburger.fartcheat.util.render.textures.Texture.BACKGROUND.bind();
-        Renderer.R2D.renderTexture(matrices,rad* MathHelper.cos(time)+scaledWidth-40,rad*MathHelper.sin(time)+scaledHeight-80,35,60,0,0,35,60,35,60);
         if(ModuleRegistry.getByClass(Hud.class).isEnabled()) {
             FontRenderers.getRenderer().drawString(matrices, "fps> " + String.valueOf(fps), 1, 1, 0xFFFFFF);
             FontRenderers.getCustomSize(12).drawString(matrices, "Position: " + Math.round(client.player.getPos().x) + "," + Math.round(client.player.getPos().y) + "," + Math.round(client.player.getPos().z), 1f, scaledHeight - FontRenderers.getCustomSize(12).getFontHeight(), 0xDDDDDD);

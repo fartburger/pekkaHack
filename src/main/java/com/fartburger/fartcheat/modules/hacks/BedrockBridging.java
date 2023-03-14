@@ -9,6 +9,7 @@ import com.fartburger.fartcheat.modules.ModuleRegistry;
 import com.fartburger.fartcheat.modules.ModuleType;
 import com.fartburger.fartcheat.util.Utils;
 import com.fartburger.fartcheat.util.render.Renderer;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
@@ -76,10 +77,10 @@ public class BedrockBridging extends Module {
 
     @Override
     public void onWorldRender(MatrixStack matrices) {
-        if (!client.world.getBlockState(FCRMain.client.player.getBlockPos().subtract(new Vec3i(0, 1, 0)).add(FCRMain.client.player.getMovementDirection().getVector())).isAir()) {
+        if (!MinecraftClient.getInstance().world.getBlockState(FCRMain.client.player.getBlockPos().subtract(new Vec3i(0, 1, 0)).add(FCRMain.client.player.getMovementDirection().getVector())).isAir()) {
             return;
         }
-        if ((client.player.getMainHandStack().getItem() instanceof BlockItem)) {
+        if ((MinecraftClient.getInstance().player.getMainHandStack().getItem() instanceof BlockItem)) {
             Renderer.R3D.renderOutline(matrices,new Color(5, 23, 86),
                     Vec3d.of(FCRMain.client.player.getBlockPos().subtract(new Vec3i(0, 1, 0)).add(FCRMain.client.player.getMovementDirection().getVector())),
                     new Vec3d(1, 1, 1));
