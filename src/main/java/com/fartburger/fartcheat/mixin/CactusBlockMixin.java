@@ -7,7 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.CactusBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageSources;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -34,6 +34,6 @@ public class CactusBlockMixin extends Block {
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if(!ModuleRegistry.getByClass(AntiCactus.class).isEnabled()) entity.damage(DamageSource.CACTUS, 1.0F);
+        if(!ModuleRegistry.getByClass(AntiCactus.class).isEnabled()) entity.damage(world.getDamageSources().cactus(), 1.0F);
     }
 }

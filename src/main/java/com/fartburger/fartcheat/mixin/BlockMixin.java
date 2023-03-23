@@ -30,7 +30,7 @@ public abstract class BlockMixin extends AbstractBlock {
         }
     }
 
-    @Inject(method = "isTranslucent", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "isTransparent", at = @At("HEAD"), cancellable = true)
     public void pekka_setTranslucent(BlockState state, BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         if (Objects.requireNonNull(ModuleRegistry.getByClass(Xray.class)).isEnabled()) {
             cir.setReturnValue(!Xray.blocks.contains(state.getBlock()));

@@ -163,4 +163,14 @@ public class RoundButton implements Element, Drawable, Selectable, HCursor {
         }
         return false;
     }
+
+    @Override
+    public void setFocused(boolean focused) {
+
+    }
+
+    @Override
+    public boolean isFocused() {
+        return false;
+    }
 }

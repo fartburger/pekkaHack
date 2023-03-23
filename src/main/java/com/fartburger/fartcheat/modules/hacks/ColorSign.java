@@ -8,7 +8,7 @@ import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleType;
 import com.fartburger.fartcheat.util.Utils;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.UpdateSignC2SPacket;
 
 public class ColorSign extends Module {

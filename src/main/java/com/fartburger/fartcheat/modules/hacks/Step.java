@@ -4,6 +4,7 @@ import com.fartburger.fartcheat.FCRMain;
 import com.fartburger.fartcheat.config.DoubleSetting;
 import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleType;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.Objects;
@@ -21,7 +22,7 @@ public class Step extends Module {
         if (FCRMain.client.player == null || FCRMain.client.getNetworkHandler() == null) {
             return;
         }
-        FCRMain.client.player.stepHeight = (float) (height.getValue() + 0);
+        FCRMain.client.player.setStepHeight((float) (height.getValue() + 0));
     }
 
     @Override
@@ -34,7 +35,7 @@ public class Step extends Module {
         if (FCRMain.client.player == null || FCRMain.client.getNetworkHandler() == null) {
             return;
         }
-        Objects.requireNonNull(client.player).stepHeight = 0.6f;
+        Objects.requireNonNull(MinecraftClient.getInstance().player).setStepHeight(0.6f);
     }
 
     @Override

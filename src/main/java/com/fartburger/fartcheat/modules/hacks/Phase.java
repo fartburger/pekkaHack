@@ -7,6 +7,7 @@ import com.fartburger.fartcheat.event.events.ChunkRenderQueryEvent;
 import com.fartburger.fartcheat.event.events.PlayerNoClipQueryEvent;
 import com.fartburger.fartcheat.modules.Module;
 import com.fartburger.fartcheat.modules.ModuleType;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.text.Text;
@@ -41,20 +42,20 @@ public class Phase extends Module {
 
     @Override
     public void tick() {
-        Objects.requireNonNull(client.player).getAbilities().setFlySpeed((float) (this.speed.getValue() + 0f) / 20f);
-        client.player.getAbilities().flying = true;
+        Objects.requireNonNull(MinecraftClient.getInstance().player).getAbilities().setFlySpeed((float) (this.speed.getValue() + 0f) / 20f);
+        MinecraftClient.getInstance().player.getAbilities().flying = true;
     }
 
     @Override
     public void enable() {
-        client.player.sendMessage(Text.of(Formatting.RED+"this bitch dont work!!!! dont use it"));
-        client.player.setOnGround(false);
+        MinecraftClient.getInstance().player.sendMessage(Text.of(Formatting.RED+"this bitch dont work!!!! dont use it"));
+        MinecraftClient.getInstance().player.setOnGround(false);
     }
 
     @Override
     public void disable() {
-        client.player.getAbilities().flying = false;
-        client.player.getAbilities().setFlySpeed(0.05f);
+        MinecraftClient.getInstance().player.getAbilities().flying = false;
+        MinecraftClient.getInstance().player.getAbilities().setFlySpeed(0.05f);
     }
 
     @Override
@@ -64,8 +65,8 @@ public class Phase extends Module {
 
     @Override
     public void onWorldRender(MatrixStack matrices) {
-        Objects.requireNonNull(client.player).setSwimming(false);
-        client.player.setPose(EntityPose.SWIMMING);
+        Objects.requireNonNull(MinecraftClient.getInstance().player).setSwimming(false);
+        MinecraftClient.getInstance().player.setPose(EntityPose.SWIMMING);
     }
 
     @Override

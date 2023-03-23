@@ -1,7 +1,7 @@
 package com.fartburger.fartcheat.event.events;
 
 import com.fartburger.fartcheat.event.events.Event;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 
 public class PacketEvent extends Event {
 

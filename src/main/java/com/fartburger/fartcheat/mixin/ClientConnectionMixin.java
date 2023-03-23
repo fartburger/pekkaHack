@@ -6,7 +6,7 @@ import com.fartburger.fartcheat.event.events.PacketEvent;
 import com.fartburger.fartcheat.util.Utils;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.network.ClientConnection;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.listener.PacketListener;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +22,7 @@ public class ClientConnectionMixin {
         }
     }
 
-    @Inject(method = "send(Lnet/minecraft/network/Packet;)V", cancellable = true, at = @At("HEAD"))
+    @Inject(method = "send(Lnet/minecraft/network/packet/Packet;)V", cancellable = true, at = @At("HEAD"))
     public void pekka_sendPacket(Packet<?> packet, CallbackInfo ci) {
         if (!Utils.sendPackets) {
             return;

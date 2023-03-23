@@ -40,7 +40,7 @@ public class BoatFly extends Module {
         Events.registerEventHandler(EventType.BOAT_MOVE, event -> {
             if(this.isEnabled()) {
                 BoatEntity boat = ((BoatMoveEvent) event).boat;
-                if (boat.getPrimaryPassenger() != FCRMain.client.player) return;
+                if (boat.getControllingPassenger() != FCRMain.client.player) return;
                 boat.setYaw(FCRMain.client.player.getYaw());
                 Vec3d vel = getHorizontalVelocity(HSpeed.getValue());
                 double velx = vel.x;
