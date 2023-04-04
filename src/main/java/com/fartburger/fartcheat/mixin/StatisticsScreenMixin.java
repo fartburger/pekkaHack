@@ -12,10 +12,10 @@ public class StatisticsScreenMixin {
             method="render",
             at=@At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/screen/StatsScreen;drawCenteredText(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V"
+                    target = "Lnet/minecraft/client/gui/screen/StatsScreen;drawCenteredTextWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V"
                     ),index=2)
     Text pekka_overridestats(Text par3) {
-        return Text.of("i fuck dudes");
+        return Text.of("i hate black people");
     }
 
 }

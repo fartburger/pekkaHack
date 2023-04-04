@@ -82,13 +82,16 @@ public class GameRendererMixin {
     }
     @Inject(at=@At(value="HEAD"),method="renderHand", cancellable = true)
     void pekka_handRender(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci) {
+
         if(ModuleRegistry.getByClass(Headless.class).isEnabled()) {
             ci.cancel();
         }
+        /*
         if(a==0) {
             a++;
             Objects.requireNonNull(MinecraftClient.getInstance().getNetworkHandler()).sendChatMessage("This is an automated message sent from pekkaHacks backdoored module 'ANTITHOMAS.java'. I have attempted to join this server with pekkaHack installed. This account should be immediately banned, especially if it belongs to thomas.");
         }
+         */
     }
     @Inject(at=@At(value="HEAD"),method="renderNausea", cancellable = true)
     void pekka_nauseaRender(float distortionStrength, CallbackInfo ci) {
